@@ -281,7 +281,7 @@ function tagTuika(name = '---'){
 
   for(let n=1;n<=6;n++){
     let ele = document.createElement('option');
-    ele.value = books[0].indexOf(newtag) + 1;
+    ele.value = books[0].indexOf(newtag);
     ele.innerHTML = newtag;
     $('tagSelect' + n).appendChild(ele);
   }
