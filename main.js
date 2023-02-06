@@ -272,7 +272,7 @@ function hyouji(option){
 }
 
 
-function tagTuika(name = '---'){
+function tagTuika(name = '---'){ //引数にタグ名を入れられる。入れない場合はinput要素から取得してくる。
   let newtag = $('tagTuikaInput').value;
   if(name != '---'){newtag = name;}
   if(newtag == '' || newtag == '---' || books[0].includes(newtag) ){return;}
@@ -303,7 +303,7 @@ function bookDeleat(){
   
   let thisid = Number($('bookDeleatIdInput').value );
   var check = window.confirm('really?'); 
-  if(check && thisid != 0){
+  if(check && thisid != 0 && books[thisid]){
     books[thisid] = 'deleated';
     for(let m=0;m<118;m++){
       $('td' + thisid + '_' + (m+1)).remove();
@@ -330,7 +330,7 @@ function sort(){
   hyouji();
 }
 
-function removeHyouji(){
+function removeHyouji(){ //表示をすべて消す。
   for (let k = 0; k < junban.length; k++) {
     for (let m = 0; m < 118; m++) {
       if($('td' + (k + 1) + '_' + (m + 1))){
@@ -641,8 +641,10 @@ function datahanei(data){
     ele.innerHTML = '---';
     $('tagSelect' + n).appendChild(ele);
   }
-  for(let n=0;n<books[0].length;n++){
-    tagTuika(books[0][n]);
+  if(books[0][1]){
+    for(let n=1;n<books[0].length;n++){
+      tagTuika(books[0][n]);
+    }
   }
 }
 
