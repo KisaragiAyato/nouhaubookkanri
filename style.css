@@ -1,0 +1,61 @@
+body {
+    font-size: 15pt;
+    background-color: darkgrey;
+    color: white;
+    text-align: center;
+}
+
+td {
+  height: 1em;
+  max-width: 8em;
+  white-space: nowrap;
+  overflow-y: scroll;
+}
+
+th{
+  height: 1em;
+}
+
+#midasi tr {
+  white-space: nowrap;
+}
+
+.memodiv {
+  width: 5em;
+  max-height: 7em;
+  overflow-y: scroll;
+  
+}
+
+.menubutton {
+  margin: 6px;
+}
+
+.nouhauHidden{
+  display: none;
+}
+
+.bookHidden{
+  display: none;
+}
+
+.festoursHidden{
+  display: none;
+}
+
+.tagHidden{
+  display: none;
+}
+
+#info{
+  position: fixed;
+  bottom: 0;
+  right:0;
+  background-color: #777;
+  height: 15em;
+  width:12em;
+}
+
+.infoHidden{
+  display:none;
+}
