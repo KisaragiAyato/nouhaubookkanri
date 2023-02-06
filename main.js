@@ -293,7 +293,7 @@ function tagHenkou(){
   let thisid = Number($('tagHenkouIdInput').value);
   if(books[thisid]){
     if(books[thisid] == 'deleated'){return;}
-    books[thisid]['tag'] = [$('tagSelect3').value,$('tagSelect4').value];
+    books[thisid]['tag'] = [Number($('tagSelect3').value),Number($('tagSelect4').value)];
     $('td' + thisid  +'_3').innerHTML = books[0][ books[thisid]['tag'][0] ]+ '<br>' + books[0][ books[thisid]['tag'][1] ];
   }
 }
