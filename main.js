@@ -291,9 +291,11 @@ function tagHenkou(){
   if($('tagHenkouIdInput').value ==''){return;}
   
   let thisid = Number($('tagHenkouIdInput').value);
-  books[thisid]['tag'] = [$('tagSelect3').value,$('tagSelect4').value];
-  $('td' + ( junban.indexOf( thisid ) +1) +'_3').innerHTML = books[0][ books[thisid]['tag'][0] ]+ '<br>' + books[0][ books[thisid]['tag'][1] ];
-  
+  if(books[thisid]){
+    if(books[thisid] == 'deleated'){return;}
+    books[thisid]['tag'] = [$('tagSelect3').value,$('tagSelect4').value];
+    $('td' + thisid  +'_3').innerHTML = books[0][ books[thisid]['tag'][0] ]+ '<br>' + books[0][ books[thisid]['tag'][1] ];
+  }
 }
 
 function bookDeleat(){
