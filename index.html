@@ -1,0 +1,1970 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="シャニマスのノウハウブック管理のためのサイト。">
+
+  <title>ノウハウブック管理</title>
+  
+  <!-- HTML -->
+  
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <details style=" background-color: dimgray; padding-left: 1em;padding-right: 1em;" id="menu">
+    <summary>
+      メニュー
+    </summary>
+    <hr>
+    <h4>保存</h4>
+      <button class="menubutton" onclick="datasounyuu()">データをブラウザのindexedDBに保存する(ノウハウブックのデータが保持されます)</button><br>
+      <a href='#' id='dllink' download='nouhaukanriBuckup.json'>バックアップデータをダウンロード</a><br><br>
+      <input type="file" id="uploadfileInput"><button class="menubutton">バックアップデータを読み込む(今現在のデータは上書きされます)</button>
+      <hr>
+      
+      <h4>分類タグ</h4>
+      <input type="text" id="tagTuikaInput" placeholder="追加したいタグ名を入力"> <button class="menubutton" onclick="tagTuika()">分類タグの追加</button><br>
+      
+      bookID: <input type='number' id="tagHenkouIdInput" placeholder="bookIDを入力"> 
+      <select id="tagSelect3">
+            <option value="0">---</option>
+      </select>
+     <select id="tagSelect4">
+       <option value="0">---</option>
+     </select>
+      <button class="menubutton" onclick="tagHenkou()">ノウハウブックのタグを変更</button><hr>
+      
+      
+      <h4>データ</h4>
+      bookID: <input type="number" id="bookDeleatIdInput" placeholder="bookIDを入力"> <button class="menubutton" onclick="bookDeleat()">ノウハウブックのデータを削除</button><br>
+      <button id="syokika" onclick="syokika()">データを初期化する</button>
+      <hr>
+      
+      
+      <h4>ソート</h4>
+      <input type="radio" name="sortInput" value="0" checked>bookID順
+      <input type="radio" name="sortInput" value="1">総ノウハウ数順
+      <input type="radio" name="sortInput" value="2">特定のノウハウ数順
+      <button class="menubutton" onclick="sort()">決定</button><br>
+        <details style="background-color: #555 ; margin-left: 3em;margin-right: 3em; padding: 1em;">
+          <summary>
+            特定のノウハウを指定
+          </summary>
+          <div id="nouhauCheckbox1" style="max-height: 15em; overflow-y: scroll; text-align: left; padding-left: 35%">
+            
+          </div>
+        </details>
+      <hr>
+      
+      
+      <h4>絞り込み表示</h4>
+        <details style="background-color: #555; margin-left: 3em; margin-right: 3em;padding: 1em; ">
+          <summary>
+            ノウハウごとの表示/非表示と絞り込み設定
+          </summary>
+          <div id="nouhauCheckbox2" style="max-height: 15em; overflow-y: scroll;">
+
+          </div>
+        </details>
+        <div>
+          <input type="checkbox" id="festoursCheck">FesTours専用アビリティを非表示にする
+        </div>
+
+       <button class="menubutton" onclick="sibori()" style="margin-right: 3em;">上の条件で絞り込み表示</button>
+       <button class="menubutton" onclick="bookAllHyouji()">すべてのノウハウブックを表示</button>
+       <button class="menubutton" onclick="bookAllHihyouji()">すべてのノウハウブックを非表示</button>
+       <button class="menubutton" ondblclick="nouhauAllHyouji()">すべてのノウハウを表示</button>
+       <br><br>
+       タグ:<select id="tagSelect5">
+         <option value="0">---</option>
+       </select>
+       <select  id="andor">
+         <option value="0" selected>and</option>
+         <option value="1">or</option>
+       </select>
+       <select id="tagSelect6">
+         <option value="0">---</option>
+       </select>       
+       <button class="menubutton" onclick="tagSibori()">タグで絞り込む</button><br>
+       ※タグの絞り込みを解除するには、---同士で絞り込んでください。
+       <br>
+       <br>
+       現在の表示から特定のbookIDを表示/非表示にする <br>
+       bookID: <input type="number" id="tokuteiIdInput" placeholder="bookIDを入力">
+       <button class="menubutton" onclick="tokuteiHyouji()">表示</button> 
+       <button class="menubutton" onclick="tokuteiHihyouji()">非表示</button> 
+      <hr>
+  </details>
+
+ <br><br>
+<div style="display: flex;">
+    
+  <table border="1" style="width: 15em" id="midasi">
+    <tr id="idolTr">
+      <th>アイドル</th>
+      <td rowspan="3">非 <br>表 <br>示 <br>↓</td>
+    </tr>
+    <tr id="dateTr">
+      <th>日付</th>
+    </tr>
+    <tr id="tagTr" style="height: 3em;">
+      <th>分類タグ</th>
+    </tr>
+    <tr id="headTr">
+      <th>頭ノウハウ</th>
+    </tr>
+    <tr id="seienTr">
+      <th>ファンの声援</th>
+    </tr>
+    <tr id="memoryNouhauTr">
+      <th>思い出(ノウハウ)</th>
+    </tr>
+    <tr id="kirakiravoTr">
+      <th>今がキラキラ!(vo)</th>
+    </tr>
+    <tr id="kirakiradaTr">
+      <th>今がキラキラ!(da)</th>
+    </tr>
+    <tr id="kirakiraviTr">
+      <th>今がキラキラ!(vi)</th>
+    </tr>
+    <tr id="matikadovoTr">
+      <th>【限】おはよう街角の朝ごはん(vo)</th>
+    </tr>
+    <tr id="matikadodaTr">
+      <th>【限】おはよう街角の朝ごはん(da)</th>
+    </tr>
+    <tr id="matikadoviTr">
+      <th>【限】おはよう街角の朝ごはん(vi)</th>
+    </tr>
+    <tr id="hoppinJamvoTr">
+      <th>HOPPIN JAM(vo)</th>
+    </tr>
+    <tr id="hoppinJamdaTr">
+      <th>HOPPIN JAM(da)</th>
+    </tr>
+    <tr id="hoppinJamviTr">
+      <th>HOPPIN JAM(vi)</th>
+    </tr>
+    <tr id="eberesutovoTr">
+      <th>【限】エレぇベスト(vo)</th>
+    </tr>
+    <tr id="eberesutodaTr">
+      <th>【限】エレぇベスト(da)</th>
+    </tr>
+    <tr id="eberesutoviTr">
+      <th>【限】エレぇベスト(vi)</th>
+    </tr>
+    <tr id="iitomovoTr">
+      <th>踊っていいとも?(vo)</th>
+    </tr>
+    <tr id="iitomodaTr">
+      <th>踊っていいとも?(da)</th>
+    </tr>
+    <tr id="iitomoviTr">
+      <th>踊っていいとも?(vi)</th>
+    </tr>
+    <tr id="mezaseIdolTr">
+      <th>【限】めざせアイドルNo.1(SP)</th>
+    </tr>
+    <tr id="utahimevoTr">
+      <th>歌姫楽宴(vo)</th>
+    </tr>
+    <tr id="utahimedaTr">
+      <th>歌姫楽宴(da)</th>
+    </tr>
+    <tr id="utahimeviTr">
+      <th>歌姫楽宴(vi)</th>
+    </tr>
+    <tr id="konyaTr">
+      <th>【限】今夜は帰りたくない!(親愛度)</th>
+    </tr>
+    <tr id="kansyasaiClearTr">
+      <th>ファン感謝祭クリア</th>
+    </tr>
+    <tr id="leader1Tr">
+      <th>Leader適正○</th>
+    </tr>
+    <tr id="leader2Tr">
+      <th>Leader適正◎</th>
+    </tr>
+    <tr id="vo1Tr">
+      <th>Vo適正○</th>
+    </tr>
+    <tr id="vo2Tr">
+      <th>Vo適正◎</th>
+    </tr>
+    <tr id="da1Tr">
+      <th>Da適正○</th>
+    </tr>
+    <tr id="da2Tr">
+      <th>Da適正◎</th>
+    </tr>
+    <tr id="vi1Tr">
+      <th>Vi適正○</th>
+    </tr>
+    <tr id="vi2Tr">
+      <th>Vi適正◎</th>
+    </tr>
+    <tr id="center1Tr">
+      <th>Center適正○</th>
+    </tr>
+    <tr id="center2Tr">
+      <th>Center適正◎</th>
+    </tr>
+    <tr id="all1Tr">
+      <th>オールラウンダー○</th>
+    </tr>
+    <tr id="all2Tr">
+      <th>オールラウンダー◎</th>
+    </tr>
+    <tr id="voJougen1Tr">
+      <th>Vo上限+</th>
+    </tr>
+    <tr id="voJougen2Tr">
+      <th>Vo上限++</th>
+    </tr>
+    <tr id="voJougen3Tr">
+      <th>Vo上限+++</th>
+    </tr>
+    <tr id="daJougen1Tr">
+      <th>Da上限+</th>
+    </tr>
+    <tr id="daJougen2Tr">
+      <th>Da上限++</th>
+    </tr>
+    <tr id="daJougen3Tr">
+      <th>Da上限+++</th>
+    </tr>
+    <tr id="viJougen1Tr">
+      <th>Vi上限+</th>
+    </tr>
+    <tr id="viJougen2Tr">
+      <th>Vi上限++</th>
+    </tr>
+    <tr id="viJougen3Tr">
+      <th>Vi上限+++</th>
+    </tr>
+    <tr id="meJougen1Tr">
+      <th>Me上限+</th>
+    </tr>
+    <tr id="meJougen2Tr">
+      <th>Me上限++</th>
+    </tr>
+    <tr id="meJougen3Tr">
+      <th>Me上限+++</th>
+    </tr>
+    <tr id="voMasterTr">
+      <th>ボーカルマスター</th>
+    </tr>
+    <tr id="daMasterTr">
+      <th>ダンスマスター</th>
+    </tr>
+    <tr id="viMasterTr">
+      <th>ビジュアルマスター</th>
+    </tr>
+    <tr id="slowStarterTr">
+      <th>スロースターター</th>
+    </tr>
+    <tr id="startDashTr">
+      <th>スタートダッシュ</th>
+    </tr>
+    <tr id="memoryHighTr">
+      <th>思い出(高)</th>
+    </tr>
+    <tr id="memoryRowTr">
+      <th>思い出(低)</th>
+    </tr>
+    <tr id="ninkimonoTr">
+      <th>人気者</th>
+    </tr>
+    <tr id="monosizukaTr">
+      <th>物静か</th>
+    </tr>
+    <tr id="tyuumokuTr">
+      <th>注目の的</th>
+    </tr>
+    <tr id="hikaemeTr">
+      <th>ひかえめ</th>
+    </tr>
+    <tr id="kaihukuryou1Tr">
+      <th>メンタル回復量+</th>
+    </tr>
+    <tr id="kaihukuryou2Tr">
+      <th>メンタル回復量-</th>
+    </tr>
+    <tr id="utareduyoiTr">
+      <th>打たれ強い</th>
+    </tr>
+    <tr id="utareyowaiTr">
+      <th>打たれ弱い</th>
+    </tr>
+    <tr id="jokyoMeran1Tr">
+      <th>除去:メランコリー1</th>
+    </tr>
+    <tr id="jokyoMeran2Tr">
+      <th>除去:メランコリー2</th>
+    </tr>
+    <tr id="lpSpTr">
+      <th>LP大成功(SP)</th>
+    </tr>
+    <tr id="destination1Tr">
+      <th>ヒカリのdestination</th>
+    </tr>
+    <tr id="destination2Tr">
+      <th>ヒカリのdestination+</th>
+    </tr>
+    <tr id="baberu1Tr">
+      <th>バベルシティ・グレイス</th>
+    </tr>
+    <tr id="baberu2Tr">
+      <th>バベルシティ・グレイス+</th>
+    </tr>
+    <tr id="yumesaki1Tr">
+      <th>夢咲きAfter school</th>
+    </tr>
+    <tr id="yumesaki2Tr">
+      <th>夢咲きAfter school+</th>
+    </tr>
+    <tr id="amesuto1Tr">
+      <th>アメストロメリア</th>
+    </tr>
+    <tr id="amesuto2Tr">
+      <th>アメストロメリア+</th>
+    </tr>
+    <tr id="wondering1Tr">
+      <th>Wandering Dream Chaser</th>
+    </tr>
+    <tr id="wondering2Tr">
+      <th>Wandering Dream Chaser+</th>
+    </tr>
+    <tr id="itudatte1Tr">
+      <th>いつだって僕らは</th>
+    </tr>
+    <tr id="itudatte2Tr">
+      <th>いつだって僕らは+</th>
+    </tr>
+    <tr id="spread1Tr">
+      <th>Spread the Wings!!</th>
+    </tr>
+    <tr id="spread2Tr">
+      <th>Spread the Wings!!+</th>
+    </tr>
+    <tr id="snow1Tr">
+      <th>SNOW FLAKES MEMORIES</th>
+    </tr>
+    <tr id="snow2Tr">
+      <th>SNOW FLAKES MEMORIES+</th>
+    </tr>
+    <tr id="syaino1Tr">
+      <th>シャイノグラフィ</th>
+    </tr>
+    <tr id="syaino2Tr">
+      <th>シャイノグラフィ+</th>
+    </tr>
+    <tr id="resonance1Tr">
+      <th>Resonance*</th>
+    </tr>
+    <tr id="resonance2Tr">
+      <th>Resonance*+</th>
+    </tr>
+    <tr id="twincle1Tr">
+      <th>疲れにくい(Twinkle way)</th>
+    </tr>
+    <tr id="twincle2Tr">
+      <th>疲れにくい(Twincle way)+</th>
+    </tr>
+    <tr id="black1Tr">
+      <th>疲れにくい(Black Reverie)</th>
+    </tr>
+    <tr id="black2Tr">
+      <th>疲れにくい(Black Reverie)+</th>
+    </tr>
+    <tr id="ryuuseigun1Tr">
+      <th>疲れにくい(五ツ星流星群)</th>
+    </tr>
+    <tr id="ryuuseigun2Tr">
+      <th>疲れにくい(五ツ星流星群)+</th>
+    </tr>
+    <tr id="double1Tr">
+      <th>疲れにくい(ダブル・イフェクト)</th>
+    </tr>
+    <tr id="double2Tr">
+      <th>疲れにくい(ダブル・イフェクト)+</th>
+    </tr>
+    <tr id="hide1Tr">
+      <th>疲れにくい(Hide & Attack)</th>
+    </tr>
+    <tr id="hide2Tr">
+      <th>疲れにくい(Hide & Attack)+</th>
+    </tr>
+    <tr id="voKansyasaiTr">
+      <th>【限】vo適正(感謝祭)</th>
+    </tr>
+    <tr id="daKansyasaiTr">
+      <th>【限】da適正(感謝祭)</th>
+    </tr>
+    <tr id="viKansyasaiTr">
+      <th>【限】vi適正(感謝祭)</th>
+    </tr>
+    <tr id="voGradTr">
+      <th>【限】vo適正(GRAD)</th>
+    </tr>
+    <tr id="daGradTr">
+      <th>【限】da適正(GRAD)</th>
+    </tr>
+    <tr id="viGradTr">
+      <th>【限】vi適正(GRAD)</th>
+    </tr>
+    <tr id="voLpTr">
+      <th>【限】vo適正(LP)</th>
+    </tr>
+    <tr id="daLpTr">
+      <th>【限】da適正(LP)</th>
+    </tr>
+    <tr id="viLpTr">
+      <th>【限】vi適正(LP)</th>
+    </tr>
+    <tr id="spTr">
+      <th>SP獲得(+10)</th>
+    </tr>
+    <tr id="appealUpTr">
+      <th>アピール値up(+2%)</th>
+    </tr>
+    <tr id="entryTr">
+      <th>エントリー目標達成</th>
+    </tr>
+    <tr id="noviceTr">
+      <th>ノービス目標達成</th>
+    </tr>
+    <tr id="middleTr">
+      <th>ミドル目標達成</th>
+    </tr>
+    <tr id="expertTr">
+      <th>エキスパート目標達成</th>
+    </tr>
+    <tr id="exhibitionTr">
+      <th>エキシビションマッチ</th>
+    </tr>
+    <tr id="towakoreTr">
+      <th>トワコレ</th>
+    </tr>
+    <tr id="memoTr">
+      <th>メモ</th>
+    </tr>
+    <tr>
+      <th>bookID(※このサイト内で使用)</th>
+    </tr>
+  </table>
+  
+  <div style="overflow-x: scroll;">
+
+  <table border="1" style="white-space: nowrap; table-layout: fixed; display: table; " id="hyoujiTable">
+    <tr id="tr1">
+      <td><select id="idolSelect" size='6'>
+        <option value="0" selected>真乃</option>
+        <option value="1">灯織</option>
+        <option value="2">めぐる</option>
+        <option value="3">恋鐘</option>
+        <option value="4">摩美々</option>
+        <option value="5">咲耶</option>
+        <option value="6">結華</option>
+        <option value="7">霧子</option>
+        <option value="8">果穂</option>
+        <option value="9">智代子</option>
+        <option value="10">樹里</option>
+        <option value="11">凛世</option>
+        <option value="12">夏葉</option>
+        <option value="13">甘奈</option>
+        <option value="14">甜花</option>
+        <option value="15">千雪</option>
+        <option value="16">あさひ</option>
+        <option value="17">冬優子</option>
+        <option value="18">愛依</option>
+        <option value="19">透</option>
+        <option value="20">円香</option>
+        <option value="21">小糸</option>
+        <option value="22">雛菜</option>
+        <option value="23">にちか</option>
+        <option value="24">美琴</option>
+      </select>
+      <input type="button" value='下記の内容で登録' id='tourokuButton1'></td>
+    </tr>
+    <tr id="tr2">
+      <td><input type='date' id="dateInput">
+      </td>
+    </tr>
+    <tr id="tr3" style="height: 3em;">
+      <td>
+      <select id="tagSelect1">
+        <option value="0">---</option>
+      </select><br>
+      <select id="tagSelect2">
+        <option value="0">---</option>
+      </select>
+      </td>
+    </tr>
+    <tr id="tr4">
+      <td>
+      <select id="headSelect">
+        <option value="0">---</option>
+        <option value="1">voUP</option>
+        <option value="2">voUP+</option>
+        <option value="3">voUP++</option>
+        <option value="4">voUP+++</option>
+        <option value="5">daUP</option>
+        <option value="6">daUP+</option>
+        <option value="7">daUP++</option>
+        <option value="8">daUP+++</option>
+        <option value="9">viUP</option>
+        <option value="10">viUP+</option>
+        <option value="11">viUP++</option>
+        <option value="12">viUP+++</option>
+        <option value="13">メンタルUP</option>
+        <option value="14">メンタルUP+</option>
+        <option value="15">メンタルUP++</option>
+        <option value="16">メンタルUP+++</option>
+        <option value="17">vo上限UP</option>
+        <option value="18">vo上限UP+</option>
+        <option value="19">vo上限UP++</option>
+        <option value="20">vo上限UP+++</option>
+        <option value="21">da上限UP</option>
+        <option value="22">da上限UP+</option>
+        <option value="23">da上限UP++</option>
+        <option value="24">da上限UP+++</option>
+        <option value="25">vi上限UP</option>
+        <option value="26">vi上限UP+</option>
+        <option value="27">vi上限UP++</option>
+        <option value="28">vi上限UP+++</option>
+        <option value="29">メンタル上限UP</option>
+        <option value="30">メンタル上限UP+</option>
+        <option value="31">メンタル上限UP++</option>
+        <option value="32">メンタル上限UP+++</option>
+      </select>
+      <select id="headLvSelect">
+        <option value="0">---</option>
+        <option value="1">Lv1</option>
+        <option value="2">Lv2</option>
+        <option value="3">Lv3</option>
+        <option value="4">Lv4</option>
+        <option value="5">Lv5</option>
+      </select>
+      </td>
+    </tr>
+    <tr id="tr5">
+      <td><select id="seienSelect">
+        <option value="0">---</option>
+        <option value="1">ファンの声援</option>
+        <option value="2">ファンの声援+</option>
+        <option value="3">ファンの声援++</option>
+      </select>
+      <select id="seienLvSelect">
+        <option value="0">---</option>
+        <option value="1">Lv1</option>
+        <option value="2">Lv2</option>
+        <option value="3">Lv3</option>
+        <option value="4">Lv4</option>
+        <option value="5">Lv5</option>
+      </select>
+      </td>
+    </tr>
+    <tr id="tr6">
+      <td><select id="memoryNouhauSelect">
+          <option value="0">---</option>
+          <option value="2">思い出(ノウハウ)+</option>
+          <option value="3">思い出(ノウハウ)++</option>
+        </select>
+        <select id="memoryNouhauLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr7">
+      <td>
+        <select id="kirakiravoLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr8">
+      <td>
+        <select id="kirakiradaLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr9">
+      <td>
+        <select id="kirakiraviLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr10">
+      <td>
+        <select id="matikadovoLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr11">
+      <td>
+        <select id="matikadodaLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr12">
+      <td>
+        <select id="matikadoviLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr13">
+      <td>
+        <select id="hoppinJamvoLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr14">
+      <td>
+        <select id="hoppinJamdaLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr15">
+      <td>
+        <select id="hoppinJamviLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr16">
+      <td>
+        <select id="eberesutovoLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr17">
+      <td>
+        <select id="eberesutodaLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr18">
+      <td>
+        <select id="eberesutoviLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr19">
+      <td>
+        <select id="iitomovoLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr20">
+      <td>
+        <select id="iitomodaLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr21">
+      <td>
+        <select id="iitomoviLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr22">
+      <td>
+        <select id="mezaseIdolLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr23">
+      <td>
+        <select id="utahimevoLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr24">
+      <td>
+        <select id="utahimedaLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr25">
+      <td>
+        <select id="utahimeviLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr26">
+      <td>
+        <select id="konyaLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr27">
+      <td><select id="kansyasaiClearSelect">
+          <option value="0">---</option>
+          <option value="1">ファン感謝祭クリア</option>
+          <option value="2">ファン感謝祭クリア+</option>
+          <option value="3">ファン感謝祭クリア++</option>
+        </select>
+        <select id="kansyasaiClearLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr28">
+      <td>
+        <select id="leader1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr29">
+      <td>
+        <select id="leader2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr30">
+      <td>
+        <select id="vo1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr31">
+      <td>
+        <select id="vo2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr32">
+      <td>
+        <select id="da1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr33">
+      <td>
+        <select id="da2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr34">
+      <td>
+        <select id="vi1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr35">
+      <td>
+        <select id="vi2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr36">
+      <td>
+        <select id="center1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr37">
+      <td>
+        <select id="center2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr38">
+      <td>
+        <select id="all1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr39">
+      <td>
+        <select id="all2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr40">
+      <td>
+        <select id="voJougen1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr41">
+      <td>
+        <select id="voJougen2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr42">
+      <td>
+        <select id="voJougen3LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr43">
+      <td>
+        <select id="daJougen1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr44">
+      <td>
+        <select id="daJougen2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr45">
+      <td>
+        <select id="daJougen3LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr46">
+      <td>
+        <select id="viJougen1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr47">
+      <td>
+        <select id="viJougen2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr48">
+      <td>
+        <select id="viJougen3LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr49">
+      <td>
+        <select id="meJougen1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr50">
+      <td>
+        <select id="meJougen2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr51">
+      <td>
+        <select id="meJougen3LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr52">
+      <td>
+        <select id="voMasterLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr53">
+      <td>
+        <select id="daMasterLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr54">
+      <td>
+        <select id="viMasterLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr55">
+      <td>
+        <select id="slowStarterLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr56">
+      <td>
+        <select id="startDashLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr57">
+      <td>
+        <select id="memoryHighLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr58">
+      <td>
+        <select id="memoryRowLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr59">
+      <td>
+        <select id="ninkimonoLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr60">
+      <td>
+        <select id="monosizukaLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr61">
+      <td>
+        <select id="tyuumokuLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr62">
+      <td>
+        <select id="hikaemeLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr63">
+      <td>
+        <select id="kaihukuryou1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr64">
+      <td>
+        <select id="kaihukuryou2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr65">
+      <td>
+        <select id="utareduyoiLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr66">
+      <td>
+        <select id="utareyowaiLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr67">
+      <td>
+        <select id="jokyoMeran1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr68">
+      <td>
+        <select id="jokyoMeran2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr69">
+      <td><select id="lpSpSelect">
+          <option value="0">---</option>
+          <option value="1">LP大成功(SP)</option>
+          <option value="2">LP大成功(SP)+</option>
+          <option value="3">LP大成功(SP)++</option>
+        </select>
+        <select id="lpSpLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr70">
+      <td>
+        <select id="destination1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr71">
+      <td>
+        <select id="destination2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr72">
+      <td>
+        <select id="baberu1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr73">
+      <td>
+        <select id="baberu2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr74">
+      <td>
+        <select id="yumesaki1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr75">
+      <td>
+        <select id="yumesaki2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr76">
+      <td>
+        <select id="amesuto1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr77">
+      <td>
+        <select id="amesuto2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr78">
+      <td>
+        <select id="wondering1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr79">
+      <td>
+        <select id="wondering2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr80">
+      <td>
+        <select id="itudatte1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr81">
+      <td>
+        <select id="itudatte2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr82">
+      <td>
+        <select id="spread1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr83">
+      <td>
+        <select id="spread2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr84">
+      <td>
+        <select id="snow1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr85">
+      <td>
+        <select id="snow2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr86">
+      <td>
+        <select id="syaino1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr87">
+      <td>
+        <select id="syaino2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr88">
+      <td>
+        <select id="resonance1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr89">
+      <td>
+        <select id="resonance2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr90">
+      <td>
+        <select id="twincle1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr91">
+      <td>
+        <select id="twincle2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr92">
+      <td>
+        <select id="black1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr93">
+      <td>
+        <select id="black2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr94">
+      <td>
+        <select id="ryuuseigun1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr95">
+      <td>
+        <select id="ryuuseigun2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr96">
+      <td>
+        <select id="double1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr97">
+      <td>
+        <select id="double2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr98">
+      <td>
+        <select id="hide1LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr99">
+      <td>
+        <select id="hide2LvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr100">
+      <td>
+        <select id="voKansyasaiLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr101">
+      <td>
+        <select id="daKansyasaiLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr102">
+      <td>
+        <select id="viKansyasaiLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr103">
+      <td>
+        <select id="voGradLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr104">
+      <td>
+        <select id="daGradLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr105">
+      <td>
+        <select id="viGradLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr106">
+      <td>
+        <select id="voLpLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr107">
+      <td>
+        <select id="daLpLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr108">
+      <td>
+        <select id="viLpLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr109">
+      <td>
+        <select id="spLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr110">
+      <td>
+        <select id="appealUpLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr111">
+      <td><select id="entrySelect">
+          <option value="0">---</option>
+          <option value="1">vo</option>
+          <option value="2">da</option>
+          <option value="3">vi</option>
+        </select>
+        <select id="entryLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr112">
+      <td><select id="noviceSelect">
+          <option value="0">---</option>
+          <option value="1">vo</option>
+          <option value="2">da</option>
+          <option value="3">vi</option>
+        </select>
+        <select id="noviceLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr113">
+      <td><select id="middleSelect">
+          <option value="0">---</option>
+          <option value="1">vo</option>
+          <option value="2">da</option>
+          <option value="3">vi</option>
+        </select>
+        <select id="middleLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr114">
+      <td><select id="expertSelect">
+          <option value="0">---</option>
+          <option value="1">vo</option>
+          <option value="2">da</option>
+          <option value="3">vi</option>
+        </select>
+        <select id="expertLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr115">
+      <td><select id="exhibitionSelect">
+          <option value="0">---</option>
+          <option value="1">エキシビションマッチ</option>
+          <option value="2">エキシビションマッチ+</option>
+          <option value="3">エキシビションマッチ++</option>
+        </select>
+        <select id="exhibitionLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr116">
+      <td>
+        <select id="towakoreLvSelect">
+          <option value="0">---</option>
+          <option value="1">Lv1</option>
+          <option value="2">Lv2</option>
+          <option value="3">Lv3</option>
+          <option value="4">Lv4</option>
+          <option value="5">Lv5</option>
+        </select>
+      </td>
+    </tr>
+    <tr id="tr117">
+      <td><textarea id="memoTextarea" rows='1' >vo: da: vi: me:</textarea>
+      </td>
+    </tr>
+    <tr id="tr118">
+      <td>
+      <input type="button" value='上記の内容で登録' id='tourokuButton2'></td>
+    </tr>
+  </table>
+  
+  </div>
+  
+</div>
+※bookIDをタップすると、そのノウハウブック情報が右下に表示されます。
+<div id="info" class="infoHidden">
+  ノウハウブック情報 <span style="font-size: 30px" onclick="infoHihyouji()">×</span>
+  <div style="height:14em;margin-top: 1em;  overflow-y: scroll;overflow-wrap: break-word;" id="infobun">
+    
+  </div>
+</div>
+  <!-- Project -->
+  <script src="const.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
