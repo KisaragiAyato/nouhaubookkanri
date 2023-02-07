@@ -554,7 +554,7 @@ function tagSibori(){
   }else if(tag1==0||tag2==0){
     let tag3 = tag1 + tag2;
     for (let id = 1; id < books.length; id++) {
-      if(books[id][tag].includes(tag3)){
+      if(books[id]['tag'].includes(tag3)){
         bookHihyouji(id,false,true);
       }else{
         bookHidden(id,true,true);
@@ -562,7 +562,7 @@ function tagSibori(){
     }
   }else if(andor == 0){//and
     for (let id = 1; id < books.length; id++) {
-      if (books[id][tag].includes(tag1) && books[id][tag].includes(tag2)) {
+      if (books[id]['tag'].includes(tag1) && books[id]['tag'].includes(tag2)) {
         bookHihyouji(id, false, true);
       } else {
         bookHidden(id, true, true);
@@ -570,7 +570,7 @@ function tagSibori(){
     }
   }else if(andor == 1){//or
     for (let id = 1; id < books.length; id++) {
-      if (books[id][tag].includes(tag1) || books[id][tag].includes(tag2)) {
+      if (books[id]['tag'].includes(tag1) || books[id]['tag'].includes(tag2)) {
         bookHihyouji(id, false, true);
       } else {
         bookHidden(id, true, true);
