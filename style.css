@@ -4,6 +4,7 @@ body {
     color: white;
     text-align: center;
     min-width:50em;
+    max-wigth:75em;
 }
 
 td {
