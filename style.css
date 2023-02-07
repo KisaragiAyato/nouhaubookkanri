@@ -3,6 +3,7 @@ body {
     background-color: #808080;
     color: white;
     text-align: center;
+    width:fit-content;
     min-width:50em;
     max-wigth:75em;
 }
