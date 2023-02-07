@@ -11,7 +11,7 @@ td {
   height: 1em;
   max-width: 8em;
   white-space: nowrap;
-  overflow-y: scroll;
+  overflow: scroll;
 }
 
 th{
@@ -24,8 +24,8 @@ th{
 
 .memodiv {
   width: 5em;
-  max-height: 7em;
-  overflow-y: scroll;
+  max-height: 1em;
+  overflow: scroll;
   
 }
 
