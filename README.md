@@ -1,3 +1,3 @@
 # nouhaubookkanri
 ミスやバグがあるかもしれません。
-htmlの要素が多すぎる。
+そしてhtmlの要素が多すぎる。
