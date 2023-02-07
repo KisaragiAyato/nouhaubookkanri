@@ -2,9 +2,19 @@ body {
     font-size: 15pt;
     background-color: #808080;
     color: white;
-    text-align: center;
+    text-align: center; 
+}
+
+@media (orientation: landscape) {
+  body {
     width:60em;
-    
+  }
+}
+
+@media (orientation: portrait) {
+  body {
+    width:45em;
+  }
 }
 
 td {
