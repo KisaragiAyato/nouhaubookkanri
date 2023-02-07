@@ -181,6 +181,7 @@ for(let n=0;n<nouhau.length;n++){  //nouhauNameを作成
 window.onload = function(){
   $('tourokuButton1').addEventListener('click',touroku);
   $('tourokuButton2').addEventListener('click',touroku);
+  $('festoursCheck').addEventListener('change',festoursHihyouji);
   
   //indexeddbから読み込む
   var storeName = 'nouhauStore';
@@ -288,7 +289,7 @@ function tagTuika(name = '---'){ //引数にタグ名を入れられる。入れ
 }
 
 function tagHenkou(){
-  if($('tagHenkouIdInput').value ==''){return;}
+  if($('tagHenkouIdInput').value =='' || $('tagHenkouIdInput').value ==0 ){return;}
   
   let thisid = Number($('tagHenkouIdInput').value);
   if(books[thisid]){
@@ -299,11 +300,11 @@ function tagHenkou(){
 }
 
 function bookDeleat(){
-  if($('bookDeleatIdInput').value ==''){return;}
+  if($('bookDeleatIdInput').value =='' || $('bookDeleatIdInput').value == 0){return;}
   
   let thisid = Number($('bookDeleatIdInput').value );
   var check = window.confirm('really?'); 
-  if(check && thisid != 0 && books[thisid]){
+  if(check && books[thisid]){
     books[thisid] = 'deleated';
     for(let m=0;m<118;m++){
       $('td' + thisid + '_' + (m+1)).remove();
@@ -455,6 +456,11 @@ function sibori(){
     }
   }
   
+  
+  
+}
+
+function festoursHihyouji(){
   let fescheck ;
   if($('festoursCheck').checked){
     fescheck = true;
@@ -576,12 +582,14 @@ function tagSibori(){
 
 function tokuteiHyouji(){
   let id = $('tokuteiIdInput').value;
+  if(id==''||id==0||books[id]=='deleated'){return;}
   bookHihyouji(id,false,false);
   bookHihyouji(id,false,true);
 }
 
 function tokuteiHihyouji() {
   let id = $('tokuteiIdInput').value;
+  if(id==''||id==0){return;}
   bookHihyouji(id, true, false);
 }
 
