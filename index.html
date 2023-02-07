@@ -71,14 +71,15 @@
           </div>
         </details>
         <div>
-          <input type="checkbox" id="festoursCheck">FesTours専用アビリティを非表示にする
+          <button class="menubutton" ondblclick="nouhauAllHyouji()">すべてのノウハウを「表示」に切り替えて反映する</button>
         </div>
 
-       <button class="menubutton" onclick="sibori()" style="margin-right: 3em;">上の条件で絞り込み表示</button>
-       <button class="menubutton" onclick="bookAllHyouji()">すべてのノウハウブックを表示</button>
+       <button class="menubutton" onclick="sibori()" >上の条件で絞り込み表示</button>
+       <button class="menubutton" onclick="bookAllHyouji()" style="margin-right: 2em; margin-left:2em;">すべてのノウハウブックを表示</button>
        <button class="menubutton" onclick="bookAllHihyouji()">すべてのノウハウブックを非表示</button>
-       <button class="menubutton" ondblclick="nouhauAllHyouji()">すべてのノウハウを表示</button>
+       
        <br><br>
+       <input type="checkbox" id="festoursCheck">FesTours専用アビリティを非表示にする<br>
        タグ:<select id="tagSelect5">
          <option value="0">---</option>
        </select>
