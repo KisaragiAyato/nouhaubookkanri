@@ -557,7 +557,7 @@ function tagSibori(){
       if(books[id]['tag'].includes(tag3)){
         bookHihyouji(id,false,true);
       }else{
-        bookHidden(id,true,true);
+        bookHihyouji(id,true,true);
       }
     }
   }else if(andor == 0){//and
@@ -565,7 +565,7 @@ function tagSibori(){
       if (books[id]['tag'].includes(tag1) && books[id]['tag'].includes(tag2)) {
         bookHihyouji(id, false, true);
       } else {
-        bookHidden(id, true, true);
+        bookHihyouhi(id, true, true);
       }
     }
   }else if(andor == 1){//or
@@ -573,7 +573,7 @@ function tagSibori(){
       if (books[id]['tag'].includes(tag1) || books[id]['tag'].includes(tag2)) {
         bookHihyouji(id, false, true);
       } else {
-        bookHidden(id, true, true);
+        bookHihyouji(id, true, true);
       }
     }
   }
