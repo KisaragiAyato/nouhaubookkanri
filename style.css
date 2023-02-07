@@ -3,6 +3,7 @@ body {
     background-color: #808080;
     color: white;
     text-align: center;
+    min-width:50em;
 }
 
 td {
