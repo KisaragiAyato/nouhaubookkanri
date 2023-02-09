@@ -300,6 +300,10 @@ function hyouji(option){
       if(m>=3 && m<116 && siboriJouken[nouhau[m]]['hyouji'] == 0){
         ele.classList.add('nouhauHidden');
       }
+      
+      if(ele.innerHTML == 0 || ele.innerHTML == 00){
+        ele.innerHTML = '';
+      }
       $('tr' + (m + 1)).appendChild(ele);
       
 
