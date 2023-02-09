@@ -8,7 +8,10 @@ let isThirdSort = false;  //ソートが「特定のノウハウ数順」状態�
 
 document.getElementById('dllink').addEventListener('click', (event) => {
   // JSON ファイルを表す Blob オブジェクトを生成
-  const json = JSON.stringify(books);
+  let cre = [];
+  cre.push(nextid);
+  cre.push(books);
+  const json = JSON.stringify(cre);
   const blob = new Blob([json], { type: 'application/json' });
  
   // a 要素の href 属性に Object URL を セット
@@ -194,6 +197,7 @@ window.onload = function(){
     db.createObjectStore(storeName, { keyPath: 'id' })
   }
   var keyValue = 'A1';
+  var keyValue2 = 'A2';
   openReq.onsuccess = function(event) {
     var db = event.target.result;
     var trans = db.transaction(storeName, 'readonly');
@@ -206,17 +210,36 @@ window.onload = function(){
         datahanei(data);
       }
     }
+    
+    var getReq2 = store.get(keyValue2);
+    
+    getReq2.onsuccess = function(event) {
+      if (event.target.result) {
+        nextid = event.target.result['data']; // {id : 'A2', data : nextid}
+      }
+    }
     db.close();
   }
 };
 
 function touroku(){
   books.push(new book);
-  let thisid = books.length-1;
-  console.log(books[thisid]);
+  let thisid = nextid;
+  nextid++;
+
+  console.log(idkensaku(thisid));
   junban.push(thisid);
   
   hyouji('tuika');
+  
+}
+
+function idkensaku(id){//idから[bookインスタンス,books内のindex]を返す
+for(let n=1;n<books.length;n++){
+  if(books[n]['id']== id){
+    return [books[n],n]
+  }
+}
   
 }
 
@@ -226,27 +249,29 @@ function hyouji(option){
   for(let k = 0 ;k<junban.length ;k++){
     let n = junban[k];  //k:junbanの何番目か　n:bookid
     
-    if(option == 'tuika'){n = books.length - 1;}
-    if(books[n] == 'deleated'){continue;}
+    if(option == 'tuika'){n = nextid - 1;}
+    let thisindex = idkensaku(n)[1];
+    if(books[thisindex] == 'deleated'){continue;}
+    
     
     for(let m = 0;m<118;m++){
       
       var ele = document.createElement('td');
       ele.id = 'td' +  n  + '_' + ( m + 1 ) ;
-      ele.innerHTML = books[n][nouhau[m]];
+      ele.innerHTML = books[thisindex][nouhau[m]];
       if(m==2){
-        ele.innerHTML = books[0][ books[n][nouhau[m]][0] ] + '<br>' + books[0][ books[n][nouhau[m]][1] ];
+        ele.innerHTML = books[0][ books[thisindex][nouhau[m]][0] ] + '<br>' + books[0][ books[thisindex][nouhau[m]][1] ];
       }
       if(m==3){
-        ele.innerHTML = headHenkan[books[n][nouhau[m] + 'X']] + books[n][nouhau[m]];
+        ele.innerHTML = headHenkan[books[thisindex][nouhau[m] + 'X']] + books[thisindex][nouhau[m]];
       }
       
       if(m==4 || m==5 || m==26 || m==68 || m==114){
-        ele.innerHTML = plusHenkan[books[n][nouhau[m] + 'X']] + books[n][nouhau[m]];
+        ele.innerHTML = plusHenkan[books[thisindex][nouhau[m] + 'X']] + books[thisindex][nouhau[m]];
       }
       
       if (m == 110 || m == 111 || m == 112 || m == 113) {
-        ele.innerHTML = vodaviHenkan[books[n][nouhau[m] + 'X']] + books[n][nouhau[m]];
+        ele.innerHTML = vodaviHenkan[books[thisindex][nouhau[m] + 'X']] + books[thisindex][nouhau[m]];
       }
       
       if(m==117){
@@ -255,7 +280,7 @@ function hyouji(option){
       }
       
       if(m == 0){
-        ele.innerHTML = idolHenkan[books[n][nouhau[m]]];
+        ele.innerHTML = idolHenkan[books[thisindex][nouhau[m]]];
       }
       
       if(m>=3 && m<116 && siboriJouken[nouhau[m]]['hyouji'] == 0){
@@ -292,10 +317,11 @@ function tagHenkou(){
   if($('tagHenkouIdInput').value =='' || $('tagHenkouIdInput').value ==0 ){return;}
   
   let thisid = Number($('tagHenkouIdInput').value);
-  if(books[thisid]){
-    if(books[thisid] == 'deleated'){return;}
-    books[thisid]['tag'] = [Number($('tagSelect3').value),Number($('tagSelect4').value)];
-    $('td' + thisid  +'_3').innerHTML = books[0][ books[thisid]['tag'][0] ]+ '<br>' + books[0][ books[thisid]['tag'][1] ];
+  if(idkensaku(thisid)[0]){
+    if(idkensaku(thisid)[0] == 'deleated'){return;}
+    let thisindex = idkensaku(thisid)[1];
+    books[thisindex]['tag'] = [Number($('tagSelect3').value),Number($('tagSelect4').value)];
+    $('td' + thisid  +'_3').innerHTML = books[0][ books[thisindex]['tag'][0] ]+ '<br>' + books[0][ books[thisindex]['tag'][1] ];
   }
 }
 
@@ -303,9 +329,10 @@ function bookDeleat(){
   if($('bookDeleatIdInput').value =='' || $('bookDeleatIdInput').value == 0){return;}
   
   let thisid = Number($('bookDeleatIdInput').value );
+  thisindex = idkensaku(thisid)[1];
   var check = window.confirm('really?'); 
-  if(check && books[thisid]){
-    books[thisid] = 'deleated';
+  if(check && books[thisindex]){
+    books[thisindex] = 'deleated';
     for(let m=0;m<118;m++){
       $('td' + thisid + '_' + (m+1)).remove();
     }
@@ -342,7 +369,7 @@ function removeHyouji(){ //表示をすべて消す。
 }
 
 function sibori(){
-  let hihyoujiBookId = [];//非表示にするbookのidをいれておく
+  let hihyoujiBookId = [];//非表示にするbookのindexをいれておく
   
   //siboriJoukenを取得
   for(let n=3;n<116;n++){
@@ -381,6 +408,7 @@ function sibori(){
     //booksごとの非表示を実行
     for(let b=0;b<junban.length;b++){//n:nouhauid,id:bookid
       let id = junban[b];
+      id = idkensaku(id)[1];
       if(books[id] == 'deleated'){continue;}
       if(checkValue2 == 0){
         if(books[id][nouhau[n]] > 0){
@@ -499,8 +527,9 @@ function nouhauHihyouji(nouhauNum,option = true,isfestours = false){
   
 }
 
-function bookHihyouji(bookid,option = true,istag = false){//book単位で非表示にする
-  if(books[bookid] == 'deleated'){return;}
+function bookHihyouji(bookindex,option = true,istag = false){//book単位で非表示にする
+  if(books[bookindex] == 'deleated'){return;}
+  let bookid = books[bookindex]['id'];
   let cl = 'bookHidden';
   if(istag == true){cl= 'tagHidden';}
   
@@ -582,15 +611,17 @@ function tagSibori(){
 
 function tokuteiHyouji(){
   let id = $('tokuteiIdInput').value;
-  if(id==''||id==0||books[id]=='deleated'){return;}
-  bookHihyouji(id,false,false);
-  bookHihyouji(id,false,true);
+  let thisindex = idkensaku(id)[1];
+  if(id==''||id==0||books[thisindex]=='deleated'){return;}
+  bookHihyouji(thisindex,false,false);
+  bookHihyouji(thisindex,false,true);
 }
 
 function tokuteiHihyouji() {
   let id = $('tokuteiIdInput').value;
+  let thisindex = idkensaku(id)[1];
   if(id==''||id==0){return;}
-  bookHihyouji(id, true, false);
+  bookHihyouji(thisindex, true, false);
 }
 
 
@@ -599,6 +630,7 @@ function datasounyuu(){
   if(result == false){return;}
   
   var data = {'id':'A1','data':books};
+  var data2 = {'id':'A2','data':nextid};
   var storeName = 'nouhauStore';
   var dbName = 'nouhaubookkanri';
   var openReq = indexedDB.open(dbName);
@@ -608,9 +640,13 @@ function datasounyuu(){
     var trans = db.transaction(storeName, 'readwrite');
     var store = trans.objectStore(storeName);
     var putReq = store.put(data);
+    var putReq2 = store.put(data2);
   
     putReq.onsuccess = function() {
       alert('put data success');
+    }
+    putReq2.onsuccess = function() {
+      
     }
   
     trans.oncomplete = function() {
@@ -630,10 +666,14 @@ function datasounyuu(){
 
 function datahanei(data){
   removeHyouji();
-  books = data;
+  let data2 = data.filter(function(value) {
+    return value != 'deleated';
+  })
+  books = data2;
   junban = [];
   for(let m=1;m<books.length;m++){
-    junban.push(m);
+    let thisid = books[m]['id'];
+    junban.push(thisid);
   }
   
   hyouji();
@@ -664,7 +704,8 @@ function readjson(){
   var reader = new FileReader();
   reader.onload = function(e) {
     let res = JSON.parse(e.target.result);
-    datahanei(res);
+    nextid = res[0];
+    datahanei(res[1]);
     
   };
   reader.readAsText(file);
@@ -680,7 +721,8 @@ function syokika(){
 }
 
 function infoHyouji(event){
-  let id = event.target.innerHTML;
+  let id = Number(event.target.innerHTML);
+  id = idkensaku(id)[1];
 
   let bun = '';
   for(let n=0;n<nouhauName.length;n++){
@@ -713,7 +755,7 @@ function infoHyouji(event){
     }
     
   }
-  bun = bun + 'bookID:' + id;
+  bun = bun + 'bookID:' + books[id]['id'];
   $('infobun').innerHTML = bun;
   $('info').classList.remove('infoHidden');
 }
