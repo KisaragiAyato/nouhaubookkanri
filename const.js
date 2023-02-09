@@ -102,17 +102,21 @@ let nextid = 1;
     }
     
   }
+
+  let siboriJouken = {};  //多次元連想配列。　例:siboriJoken['head']['lv']
   
   const sortFunctions = [
     function(a,b){
       return a-b;
     },
     function(a,b){
-      if (books[a] == 'deleated') { return 1; }
-      if (books[b] == 'deleated') { return -1; }
+      let a1 = idkensaku(a)[1];
+      let b1 = idkensaku(b)[1];
+      if (books[a1] == 'deleated') { return 1; }
+      if (books[b1] == 'deleated') { return -1; }
       
-      let anouhau = books[a]['nouhausuu'];
-      let bnouhau = books[b]['nouhausuu'];
+      let anouhau = books[a1]['nouhausuu'];
+      let bnouhau = books[b1]['nouhausuu'];
       if(bnouhau - anouhau != 0){
         return bnouhau - anouhau;
       }else{
@@ -120,8 +124,10 @@ let nextid = 1;
       }
     },
     function(a,b){
-      if(books[a] == 'deleated'){return 1;}
-      if(books[b] == 'deleated'){return -1;}
+      let a1 = idkensaku(a)[1];
+      let b1 = idkensaku(b)[1];
+      if(books[a1] == 'deleated'){return 1;}
+      if(books[b1] == 'deleated'){return -1;}
       
       let anouhau=0;
       let anouhauz=0;
@@ -130,11 +136,11 @@ let nextid = 1;
       for(let n=3;n<116;n++){
         if($('nouhauCheckbox1_'+ n).checked){
           console.log(nouhau[n] + 'is checked.');
-          if(books[a][nouhau[n]] >= siboriJouken[nouhau[n]]['lv']){anouhau++;}
-          if(books[b][nouhau[n]] >= siboriJouken[nouhau[n]]['lv']){bnouhau++;}
+          if(books[a1][nouhau[n]] >= siboriJouken[nouhau[n]]['lv']){anouhau++;}
+          if(books[b1][nouhau[n]] >= siboriJouken[nouhau[n]]['lv']){bnouhau++;} //絞り込み条件の下限レベルを適用
         }else{
-          if (books[a][nouhau[n]] != 0) { anouhauz++; }
-          if (books[b][nouhau[n]] != 0) { bnouhauz++; }
+          if (books[a1][nouhau[n]] != 0) { anouhauz++; }
+          if (books[b1][nouhau[n]] != 0) { bnouhauz++; }
         }
       }
       if (bnouhau - anouhau != 0) {
@@ -147,5 +153,3 @@ let nextid = 1;
     }
     ];
     
-    
-    let siboriJouken = {};  //多次元連想配列。　例:siboriJoken['head']['lv']
