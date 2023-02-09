@@ -74,6 +74,8 @@ function $(name){
   return document.getElementById(name);  
 }
 
+let nextid = 1;
+
   class book{
     constructor(){
       this.idol = $('idolSelect').value;
@@ -96,7 +98,7 @@ function $(name){
       this.exhibitionX = $('exhibitionSelect').value;
       this.memo = $('memoTextarea').value;
       
-      
+      this.id = nextid;
     }
     
   }
