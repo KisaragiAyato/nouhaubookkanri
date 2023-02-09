@@ -4,6 +4,7 @@ body {
     color: white;
     text-align: center; 
     width:45em;
+    overscroll-behavior-y: none;
 }
 
 @media (orientation: landscape) {
