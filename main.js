@@ -233,10 +233,18 @@ function touroku(){
   let thisid = nextid;
   nextid++;
 
-  console.log(idkensaku(thisid));
   junban.push(thisid);
   
   hyouji('tuika');
+  //選択状態を戻す。ただしdate以外。
+  for(let nouhauNum=0;nouhauNum<nouhau.length;nouhauNum++){
+        if($(nouhau[nouhauNum] + 'LvSelect')){$(nouhau[nouhauNum] + 'LvSelect').options[0].selected = true;}
+        if($(nouhau[nouhauNum] + 'Select')) {$(nouhau[nouhauNum] + 'Select').options[0].selected = true; }
+        if($(nouhau[nouhauNum] + 'Select1')){$(nouhau[nouhauNum] + 'Select1').options[0].selected = true;}
+        if($(nouhau[nouhauNum] + 'Select2')){$(nouhau[nouhauNum] + 'Select2').options[0].selected = true;}
+        if($(nouhau[nouhauNum] + 'Textarea')){$(nouhau[nouhauNum] + 'Textarea').value = 'vo: da: vi: me: ';}
+  }
+  alert('bookID:' + thisid + 'に登録されました。');
   
 }
 
