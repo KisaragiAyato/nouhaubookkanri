@@ -386,6 +386,18 @@ function removeHyouji(){ //表示をすべて消す。
   }
 }
 
+function gyakujun(){
+  let jun = [].concat(junban);
+  let gyaku = [];
+  while(jun.length > 0){
+    gyaku.push(jun[jun.length - 1]);
+    jun.pop();
+  }
+  junban = gyaku;
+  removeHyouji();
+  hyouji();
+}
+
 function sibori(){
   let hihyoujiBookId = [];//非表示にするbookのindexをいれておく
   
