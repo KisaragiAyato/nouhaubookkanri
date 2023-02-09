@@ -10,7 +10,13 @@ document.getElementById('dllink').addEventListener('click', (event) => {
   // JSON ファイルを表す Blob オブジェクトを生成
   let cre = [];
   cre.push(nextid);
-  cre.push(books);
+  let books2 = [];
+  for(let n=0;n<books.length;n++){
+    if(books[n] != 'deleated'){
+      books2.push(books[n]);
+    }
+  }
+  cre.push(books2);
   const json = JSON.stringify(cre);
   const blob = new Blob([json], { type: 'application/json' });
  
@@ -629,7 +635,14 @@ function datasounyuu(){
   var result = window.confirm('保存しますか?');
   if(result == false){return;}
   
-  var data = {'id':'A1','data':books};
+  let books2 = [];
+  for(let n=0;n<books.length;n++){
+    if(books[n] != 'deleated'){
+      books2.push(books[n]);
+    }
+  }
+  
+  var data = {'id':'A1','data':books2};
   var data2 = {'id':'A2','data':nextid};
   var storeName = 'nouhauStore';
   var dbName = 'nouhaubookkanri';
@@ -666,10 +679,7 @@ function datasounyuu(){
 
 function datahanei(data){
   removeHyouji();
-  let data2 = data.filter(function(value) {
-    return value != 'deleated';
-  })
-  books = data2;
+  books = data;
   junban = [];
   for(let m=1;m<books.length;m++){
     let thisid = books[m]['id'];
