@@ -139,6 +139,8 @@ let nextid = 1;
         return bnouhau - anouhau;
       } else if(anouhauz - bnouhauz != 0){
         return anouhauz - bnouhauz;
+      }else if( books[a1]['nouhausuu'] - books[b1]['nouhausuu'] != 0 ){
+        return books[b1]['nouhausuu'] - books[a1]['nouhausuu'];
       }else{
         return a-b;
       }
