@@ -129,20 +129,12 @@ let nextid = 1;
       if(books[a1] == 'deleated'){return 1;}
       if(books[b1] == 'deleated'){return -1;}
       
-      let anouhau=0;
-      let anouhauz=0;
-      let bnouhau=0;
-      let bnouhauz=0;
-      for(let n=3;n<116;n++){
-        if($('nouhauCheckbox1_'+ n).checked){
-          console.log(nouhau[n] + 'is checked.');
-          if(books[a1][nouhau[n]] >= siboriJouken[nouhau[n]]['lv']){anouhau++;}
-          if(books[b1][nouhau[n]] >= siboriJouken[nouhau[n]]['lv']){bnouhau++;} //絞り込み条件の下限レベルを適用
-        }else{
-          if (books[a1][nouhau[n]] != 0) { anouhauz++; }
-          if (books[b1][nouhau[n]] != 0) { bnouhauz++; }
-        }
-      }
+      let anouhau=siborisort(a1)[0];
+      let anouhauz=siborisort(a1)[1];
+      let bnouhau=siborisort(b1)[0];
+      let bnouhauz=siborisort(b1)[1];
+      
+ 
       if (bnouhau - anouhau != 0) {
         return bnouhau - anouhau;
       } else if(anouhauz - bnouhauz != 0){
@@ -153,3 +145,49 @@ let nextid = 1;
     }
     ];
     
+function siborisort(index){
+  let good = 0;
+  let bad = 0;
+  for(let n=3;n<116;n++){
+        if($('nouhauCheckbox1_'+ n).checked){
+       
+          if(books[index][nouhau[n]] >= siboriJouken[nouhau[n]]['lv']]{
+             if(n==3 && siborijouken[nouhau[3]]['X'] != 0){//頭ノウハウで(指定なし)じゃない場合
+               let x = siborijouken[nouhau[3]]['X'];
+               let y = books[index]['headX'];
+               if((x<=4&&x<=y&&y<=4)||(5>=x&&x<=8&&x<=y&&5>=y&&y<=8)||(x>=9&&x<=12&&x<=y&&y>=9&&y<=12)||
+                 (x>=13&&x<=16&&x<=y&&y>=13&&y<=16)||(x>=17&&x<=20&&x<=y&&y>=17&&y<=20)||
+                 (x>=21&&x<=24&&x<=y&&y>=21&&y<=24)||(x>=25&&x<=28&&x<=y&&y>=25&&y<=28)||
+                 (x>=29&&x<=y&&y>=29)){
+                   good++;
+               
+               }else{
+                   bad++;
+               }
+             }else if(n==3){  //Lvのみ指定
+               good++;
+             
+             }else if(n==4||n==5||n==26||n==68||n==114){
+               if((siborijouken[nouhau[n]]['X'] > books[index][nouhau[n] + 'X']) && (books[index][nouhau[n] + 'X'] != 0 )){
+                 bad++;
+               }else if(siborijouken[nouhau[n]]['X'] <= books[index][nouhau[n] + 'X']  ){
+                 good++;
+               }
+             }else if(n>=110 && n<=113){
+                if((siborijouken[nouhau[n]]['X'] != books[index][nouhau[n] + 'X']) && books[index][nouhau[n] + 'X'] != 0 
+                    && siborijouken[nouhau[n]]['X'] != 0 ){
+                   bad++;
+                }else if( siborijouken[nouhau[n]]['X'] == books[index][nouhau[n] + 'X'] || siborijouken[nouhau[n]]['X'] == 0 ) {
+                  good++;
+                }
+             }else{
+               good++;  //Lvだけ判定すればいいノウハウ
+             }
+          }else if( books[index][nouhau[n]] != 0 ){
+            //Lv不足
+            bad++;
+          }
+      }
+   }
+  return [good,bad];
+}
