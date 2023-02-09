@@ -1,6 +1,10 @@
 let books = [];  //[0]はタグ一覧、以降にbook情報
 books[0] = ['---'];
 let junban = [];  //bookIDの羅列
+let hihyoujiBookId = [];//非表示にするbookのindexをいれておく sibori()用
+let hihyoujiBookId2 = [];//非表示にするbookのindexをいれておく tagSibori()用
+let hihyoujiBookId3 = [];//kobetu
+let hyoujiBookId3 = [];
 let isThirdSort = false;  //ソートが「特定のノウハウ数順」状態の時に「ノウハウの絞り込み」をした際、
                           //絞り込み条件外のノウハウを除外して再ソートするため。
                           //例　「特定のノウハウ」でvo適正を設定した後、vo適正をlv5以上に絞り込んだら、
@@ -304,6 +308,15 @@ function hyouji(option){
       if(ele.innerHTML == 0 || ele.innerHTML == 00){
         ele.innerHTML = '';
       }
+      
+      if(hyoujiBookId3.includes(thisindex)==false){
+        if(hihyoujiBookId.includes(thisindex) || hihyoujiBookId3.includes(thisindex)){
+          ele.classlist.add('bookHidden');
+        }
+        if(hihyoujiBookId2.includes(thisindex)){
+          ele.classlist.add('tagHidden');
+        }
+      }
       $('tr' + (m + 1)).appendChild(ele);
       
 
@@ -399,7 +412,7 @@ function gyakujun(){
 }
 
 function sibori(){
-  let hihyoujiBookId = [];//非表示にするbookのindexをいれておく
+  hihyoujiBookId = [];//非表示にするbookのindexをいれておく
   
   //siboriJoukenを取得
   for(let n=3;n<116;n++){
@@ -581,14 +594,22 @@ function hihyoujiButton(event){
 }
 
 function bookAllHyouji(){
-    for (let count = 1; count < books.length; count++) {
-        bookHihyouji(count, false);
+    for (let count = 0; count < junban.length; count++) {
+      let id = junban[count];
+      let index = idkensaku(id)[1];
+        bookHihyouji(index, false);
     }
+   hihyoujiBookId = [];
 }
 
 function bookAllHihyouji() {
-  for (let count = 1; count < books.length; count++) {
-    bookHihyouji(count);
+  hihyoujiBookId = [];
+  for (let count = 0; count < junban.length; count++) {
+    let id = junban[count];
+    let index = idkensaku(id)[1];
+    bookHihyouji(index);
+    hihyoujiBookId.push(index);
+    
   }
 }
 
@@ -602,37 +623,57 @@ function nouhauAllHyouji(){
 
 
 function tagSibori(){
+  hihyoujiBookId2 = [];
   let tag1 = $('tagSelect5').value;
   let tag2 = $('tagSelect6').value;  
   let andor = $('andor').value;
   
   if(tag1==0&&tag2==0){
-    for(let id =1;id<books.length;id++){
+    for(let count =0;count<junban.length;count++){
+      let id = junban[count];
+      let index = idkensaku(id)[1];
       bookHihyouji(id,false,true);
     }
   }else if(tag1==0||tag2==0){
     let tag3 = tag1 + tag2;
-    for (let id = 1; id < books.length; id++) {
-      if(books[id]['tag'].includes(tag3)){
-        bookHihyouji(id,false,true);
+    for (let count = 1; count < books.length; count++) {
+      let id = junban[count];
+      let index = idkensaku(id)[1];
+      if(books[index]['tag'].includes(tag3)){
+        bookHihyouji(index,false,true);
       }else{
-        bookHihyouji(id,true,true);
+        bookHihyouji(index,true,true);
+        if(hihyoujiBookid2.includes(index) == false){
+          hihyoujiBookId2.push(index);
+        }
       }
     }
   }else if(andor == 0){//and
     for (let id = 1; id < books.length; id++) {
       if (books[id]['tag'].includes(tag1) && books[id]['tag'].includes(tag2)) {
         bookHihyouji(id, false, true);
+        if(hihyoujiBookid2.includes(id)){
+          hihyoujiBookId2.slice(hihyoujiBookId2.indexOf(id),1);
+        }
       } else {
         bookHihyouhi(id, true, true);
+        if(hihyoujiBookid2.includes(id) == false){
+          hihyoujiBookId2.push(id);
+        }
       }
     }
   }else if(andor == 1){//or
     for (let id = 1; id < books.length; id++) {
       if (books[id]['tag'].includes(tag1) || books[id]['tag'].includes(tag2)) {
         bookHihyouji(id, false, true);
+        if(hihyoujiBookid2.includes(id)){
+          hihyoujiBookId2.slice(hihyoujiBookId2.indexOf(id),1);
+        }
       } else {
         bookHihyouji(id, true, true);
+        if(hihyoujiBookid2.includes(id) == false){
+          hihyoujiBookId2.push(id);
+        }
       }
     }
   }
@@ -645,6 +686,12 @@ function tokuteiHyouji(){
   if(id==''||id==0||books[thisindex]=='deleated'){return;}
   bookHihyouji(thisindex,false,false);
   bookHihyouji(thisindex,false,true);
+  if(hyoujiBookid3.includes(thisindex) == false){
+          hyoujiBookId3.push(thisindex);
+  }
+  if(hihyoujiBookid3.includes(thisindex)){
+          hihyoujiBookId3.slice(hihyoujiBookId3.indexOf(thisindex),1);
+  }
 }
 
 function tokuteiHihyouji() {
@@ -652,6 +699,12 @@ function tokuteiHihyouji() {
   let thisindex = idkensaku(id)[1];
   if(id==''||id==0){return;}
   bookHihyouji(thisindex, true, false);
+  if(hihyoujiBookid3.includes(thisindex) == false){
+          hihyoujiBookId3.push(thisindex);
+  }
+  if(hyoujiBookid3.includes(thisindex)){
+          hyoujiBookId3.slice(hyoujiBookId3.indexOf(thisindex),1);
+  }
 }
 
 
