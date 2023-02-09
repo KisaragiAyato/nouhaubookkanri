@@ -151,7 +151,7 @@ function siborisort(index){
   for(let n=3;n<116;n++){
         if($('nouhauCheckbox1_'+ n).checked){
        
-          if(books[index][nouhau[n]] >= siboriJouken[nouhau[n]]['lv']]{
+          if(books[index][nouhau[n]] >= siboriJouken[nouhau[n]]['lv']){
              if(n==3 && siborijouken[nouhau[3]]['X'] != 0){//頭ノウハウで(指定なし)じゃない場合
                let x = siborijouken[nouhau[3]]['X'];
                let y = books[index]['headX'];
