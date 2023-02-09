@@ -311,10 +311,10 @@ function hyouji(option){
       
       if(hyoujiBookId3.includes(thisindex)==false){
         if(hihyoujiBookId.includes(thisindex) || hihyoujiBookId3.includes(thisindex)){
-          ele.classlist.add('bookHidden');
+          ele.classList.add('bookHidden');
         }
         if(hihyoujiBookId2.includes(thisindex)){
-          ele.classlist.add('tagHidden');
+          ele.classList.add('tagHidden');
         }
       }
       $('tr' + (m + 1)).appendChild(ele);
@@ -511,7 +511,6 @@ function sibori(){
     }
   
   }
-  console.log(hihyoujiBookId);
   if(isThirdSort){
       junban.sort(sortFunctions[2]);
       removeHyouji();
