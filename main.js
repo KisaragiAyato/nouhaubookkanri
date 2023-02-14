@@ -649,7 +649,7 @@ function tagSibori(){
     for (let count = 0; count < junban.length; count++) {
       let id = junban[count];
       let index = idkensaku(id)[1];
-      if(books[index]['tag'].includes(tag3)){
+      if(books[index]['tag'].includes(tag3) || books[index]['tag'].includes(tag3 + '') ){
         bookHihyouji(index,false,true);
       }else{
         bookHihyouji(index,true,true);
@@ -662,7 +662,8 @@ function tagSibori(){
     for (let count = 0; count < junban.length; count++) {
       let id = junban[count];
       let index = idkensaku(id)[1];
-      if (books[index]['tag'].includes(tag1) && books[index]['tag'].includes(tag2)) {
+      if ((books[index]['tag'].includes(tag1) ||books[index]['tag'].includes(tag1 +'') )&&
+          (books[index]['tag'].includes(tag2) ||books[index]['tag'].includes(tag2 +'') )) {
         bookHihyouji(index, false, true);
         if(hihyoujiBookId2.includes(index)){
           hihyoujiBookId2.slice(hihyoujiBookId2.indexOf(index),1);
@@ -678,7 +679,8 @@ function tagSibori(){
     for (let cou = 0; cou < junban.length; cou++) {
       let id = junban[cou];
       let index = idkensaku(id)[1];
-      if (books[index]['tag'].includes(tag1) || books[index]['tag'].includes(tag2)) {
+      if ((books[index]['tag'].includes(tag1) ||books[index]['tag'].includes(tag1 +'')  )||
+          (books[index]['tag'].includes(tag2) ||books[index]['tag'].includes(tag2 +'') )) {
         bookHihyouji(index, false, true);
         if(hihyoujiBookId2.includes(index)){
           hihyoujiBookId2.slice(hihyoujiBookId2.indexOf(index),1);
