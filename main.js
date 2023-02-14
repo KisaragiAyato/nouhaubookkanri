@@ -634,15 +634,15 @@ function nouhauAllHyouji(){
 
 function tagSibori(){
   hihyoujiBookId2 = [];
-  let tag1 = $('tagSelect5').value;
-  let tag2 = $('tagSelect6').value;  
+  let tag1 = Number($('tagSelect5').value);
+  let tag2 = Number($('tagSelect6').value);  
   let andor = $('andor').value;
   
   if(tag1==0&&tag2==0){
     for(let count =0;count<junban.length;count++){
       let id = junban[count];
       let index = idkensaku(id)[1];
-      bookHihyouji(id,false,true);
+      bookHihyouji(index,false,true);
     }
   }else if(tag1==0||tag2==0){
     let tag3 = tag1 + tag2;
@@ -653,7 +653,7 @@ function tagSibori(){
         bookHihyouji(index,false,true);
       }else{
         bookHihyouji(index,true,true);
-        if(hihyoujiBookid2.includes(index) == false){
+        if(hihyoujiBookId2.includes(index) == false){
           hihyoujiBookId2.push(index);
         }
       }
@@ -662,12 +662,12 @@ function tagSibori(){
     for (let id = 1; id < books.length; id++) {
       if (books[id]['tag'].includes(tag1) && books[id]['tag'].includes(tag2)) {
         bookHihyouji(id, false, true);
-        if(hihyoujiBookid2.includes(id)){
+        if(hihyoujiBookId2.includes(id)){
           hihyoujiBookId2.slice(hihyoujiBookId2.indexOf(id),1);
         }
       } else {
         bookHihyouhi(id, true, true);
-        if(hihyoujiBookid2.includes(id) == false){
+        if(hihyoujiBookId2.includes(id) == false){
           hihyoujiBookId2.push(id);
         }
       }
@@ -676,12 +676,12 @@ function tagSibori(){
     for (let id = 1; id < books.length; id++) {
       if (books[id]['tag'].includes(tag1) || books[id]['tag'].includes(tag2)) {
         bookHihyouji(id, false, true);
-        if(hihyoujiBookid2.includes(id)){
+        if(hihyoujiBookId2.includes(id)){
           hihyoujiBookId2.slice(hihyoujiBookId2.indexOf(id),1);
         }
       } else {
         bookHihyouji(id, true, true);
-        if(hihyoujiBookid2.includes(id) == false){
+        if(hihyoujiBookId2.includes(id) == false){
           hihyoujiBookId2.push(id);
         }
       }
