@@ -646,7 +646,7 @@ function tagSibori(){
     }
   }else if(tag1==0||tag2==0){
     let tag3 = tag1 + tag2;
-    for (let count = 1; count < books.length; count++) {
+    for (let count = 0; count < junban.length; count++) {
       let id = junban[count];
       let index = idkensaku(id)[1];
       if(books[index]['tag'].includes(tag3)){
@@ -659,30 +659,34 @@ function tagSibori(){
       }
     }
   }else if(andor == 0){//and
-    for (let id = 1; id < books.length; id++) {
-      if (books[id]['tag'].includes(tag1) && books[id]['tag'].includes(tag2)) {
-        bookHihyouji(id, false, true);
-        if(hihyoujiBookId2.includes(id)){
-          hihyoujiBookId2.slice(hihyoujiBookId2.indexOf(id),1);
+    for (let count = 0; count < junban.length; count++) {
+      let id = junban[count];
+      let index = idkensaku(id)[1];
+      if (books[index]['tag'].includes(tag1) && books[index]['tag'].includes(tag2)) {
+        bookHihyouji(index, false, true);
+        if(hihyoujiBookId2.includes(index)){
+          hihyoujiBookId2.slice(hihyoujiBookId2.indexOf(index),1);
         }
       } else {
-        bookHihyouhi(id, true, true);
-        if(hihyoujiBookId2.includes(id) == false){
-          hihyoujiBookId2.push(id);
+        bookHihyouhi(index, true, true);
+        if(hihyoujiBookId2.includes(index) == false){
+          hihyoujiBookId2.push(index);
         }
       }
     }
   }else if(andor == 1){//or
-    for (let id = 1; id < books.length; id++) {
-      if (books[id]['tag'].includes(tag1) || books[id]['tag'].includes(tag2)) {
-        bookHihyouji(id, false, true);
-        if(hihyoujiBookId2.includes(id)){
-          hihyoujiBookId2.slice(hihyoujiBookId2.indexOf(id),1);
+    for (let cou = 0; cou < junban.length; cou++) {
+      let id = junban[cou];
+      let index = idkensaku(id)[1];
+      if (books[index]['tag'].includes(tag1) || books[index]['tag'].includes(tag2)) {
+        bookHihyouji(index, false, true);
+        if(hihyoujiBookId2.includes(index)){
+          hihyoujiBookId2.slice(hihyoujiBookId2.indexOf(index),1);
         }
       } else {
-        bookHihyouji(id, true, true);
-        if(hihyoujiBookId2.includes(id) == false){
-          hihyoujiBookId2.push(id);
+        bookHihyouji(index, true, true);
+        if(hihyoujiBookId2.includes(index) == false){
+          hihyoujiBookId2.push(index);
         }
       }
     }
