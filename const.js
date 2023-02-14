@@ -78,24 +78,24 @@ let nextid = 1;
 
   class book{
     constructor(){
-      this.idol = $('idolSelect').value;
-      this.date = $('dateInput').value;
-      this.tag = [$('tagSelect1').value,$('tagSelect2').value];
+      this.idol = Number($('idolSelect').value);
+      this.date = Number($('dateInput').value);
+      this.tag = [Number($('tagSelect1').value),Number($('tagSelect2').value)];
       this.nouhausuu = 0;
       for(let i = 3;i<nouhau.length - 1;i++){
-        this[nouhau[i]] = $(nouhau[i] + 'LvSelect').value;
+        this[nouhau[i]] = Number($(nouhau[i] + 'LvSelect').value);
         if(this[nouhau[i]] != 0){this.nouhausuu++;}
       }
-      this.headX = $('headSelect').value;
-      this.seienX = $('seienSelect').value;
-      this.memoryNouhauX = $('memoryNouhauSelect').value;
-      this.kansyasaiClearX = $('kansyasaiClearSelect').value;
-      this.lpSpX = $('lpSpSelect').value;
-      this.entryX = $('entrySelect').value;
-      this.noviceX = $('noviceSelect').value;
-      this.middleX = $('middleSelect').value;
-      this.expertX = $('expertSelect').value;
-      this.exhibitionX = $('exhibitionSelect').value;
+      this.headX = Number($('headSelect').value);
+      this.seienX = Number($('seienSelect').value);
+      this.memoryNouhauX = Number($('memoryNouhauSelect').value);
+      this.kansyasaiClearX = Number($('kansyasaiClearSelect').value);
+      this.lpSpX = Number($('lpSpSelect').value);
+      this.entryX = Number($('entrySelect').value);
+      this.noviceX = Number($('noviceSelect').value);
+      this.middleX = Number($('middleSelect').value);
+      this.expertX = Number($('expertSelect').value);
+      this.exhibitionX = Number($('exhibitionSelect').value);
       this.memo = $('memoTextarea').value;
       
       this.id = nextid;
