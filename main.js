@@ -330,15 +330,22 @@ function hyouji(option){
 
 
 function tagTuika(name = '---'){ //引数にタグ名を入れられる。入れない場合はinput要素から取得してくる。
-  let newtag = $('tagTuikaInput').value;
-  if(name != '---'){newtag = name;}
-  if(newtag == '' || newtag == '---' || books[0].includes(newtag) ){
-    if(name == '---'){
+  let newtag ;
+  if(name != '---'){
+    newtag = name;
+  }else{
+    newtag = $('tagTuikaInput').value;
+    if(newtag == '' || newtag == '---' || books[0].includes(newtag) ){
+    
       return;
     }
   }
-  books[0].push(newtag);
-  $('tagTuikaInput').value = '';
+  
+  if(name == '---'){
+    books[0].push(newtag);
+    $('tagTuikaInput').value = '';
+  }
+  
 
   for(let n=1;n<=6;n++){
     let ele = document.createElement('option');
