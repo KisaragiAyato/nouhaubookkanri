@@ -115,12 +115,29 @@ let nextid = 1;
       if (books[a1] == 'deleated') { return 1; }
       if (books[b1] == 'deleated') { return -1; }
       
-      let anouhau = books[a1]['nouhausuu'];
-      let bnouhau = books[b1]['nouhausuu'];
+      let anouhau = nouhausuuSearch(a1);
+      let bnouhau = nouhausuuSearch(b1);
       if(bnouhau - anouhau != 0){
         return bnouhau - anouhau;
       }else{
         return a-b;
+      }
+      
+      function nouhausuuSearch(index){
+        if(typeof(books[index]['head']) == 'number'){
+          return books[index]['nouhausuu'];
+        }else{
+          let renum=0;
+          for (let i = 3; i < nouhau.length - 1; i++) {
+            let search = Number(books[index][nouhau[i]]);
+            books[index][nouhau[i]] = search;
+            if (search != 0) {
+              renum++;
+            }
+          }
+          books[index]['nouhausuu'] = renum;
+          return renum;
+        }
       }
     },
     function(a,b){
