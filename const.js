@@ -79,7 +79,7 @@ let nextid = 1;
   class book{
     constructor(){
       this.idol = Number($('idolSelect').value);
-      this.date = Number($('dateInput').value);
+      this.date = $('dateInput').value;
       this.tag = [Number($('tagSelect1').value),Number($('tagSelect2').value)];
       this.nouhausuu = 0;
       for(let i = 3;i<nouhau.length - 1;i++){
