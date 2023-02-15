@@ -32,13 +32,13 @@ document.getElementById('dllink').addEventListener('click', (event) => {
 
 for(let n=0;n<nouhau.length;n++){  //nouhauNameを作成
   nouhauName[n] = $(nouhau[n] + 'Tr').children[0].innerHTML;
-  //ついでにチェックボックスの作成
-  if(n>=3 && n<116){
+  
+  if(n>=3 && n<116){//絞り込み条件の初期化
     siboriJouken[nouhau[n]] = {};
     siboriJouken[nouhau[n]]['lv'] = 1;
     siboriJouken[nouhau[n]]['hyouji'] = 1;
     siboriJouken[nouhau[n]]['X'] = 0;
-    
+   //ノウハウ関係のチェックボックスを作成
     let ele = document.createElement('input');
     ele.type = 'checkbox';
     ele.id = 'nouhauCheckbox1_' + n;
@@ -613,6 +613,12 @@ function bookAllHyouji(){
         bookHihyouji(index, false);
     }
    hihyoujiBookId = [];
+  for(let n=3 ; n<116;n++){
+    
+    siboriJouken[nouhau[n]]['lv'] = 1;
+    siboriJouken[nouhau[n]]['hyouji'] = 1;
+    siboriJouken[nouhau[n]]['X'] = 0;
+  }
 }
 
 function bookAllHihyouji() {
