@@ -189,6 +189,10 @@ function siborisort(index){
             //Lv不足
             bad++;
           }
+      }else{//チェックされてない場合
+         if(books[index][nouhau[n]] >= 1){
+           bad++;
+         }
       }
    }
   return [good,bad];
