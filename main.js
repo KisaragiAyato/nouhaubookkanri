@@ -397,6 +397,13 @@ function sort(){
   junban.sort(sortFunctions[checkValue]);
   removeHyouji();
   console.log('順番:' + junban);
+  if(checkValue==1){
+    let test = [];
+    for(let k=0;k<junban.length;k++){
+      test.push(idkensaku(k)[0]['nouhausuu']);
+    }
+    console.log('ノウハウ数:' + test);
+  }
   hyouji();
 }
 
