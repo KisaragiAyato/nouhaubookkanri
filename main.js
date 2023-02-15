@@ -397,21 +397,16 @@ function sort(){
   junban.sort(sortFunctions[checkValue]);
   removeHyouji();
   console.log('順番:' + junban);
-  if(checkValue==1){
-    let test = [];
-    for(let k=0;k<junban.length;k++){
-      test.push(idkensaku(junban[k])[0]['nouhausuu']);
-    }
-    console.log('ノウハウ数:' + test);
-  }
+  
   hyouji();
 }
 
 function removeHyouji(){ //表示をすべて消す。
   for (let k = 0; k < junban.length; k++) {
+    let id = junban[k];
     for (let m = 0; m < 118; m++) {
-      if($('td' + (k + 1) + '_' + (m + 1))){
-        $('td' + (k + 1) + '_' + (m + 1)).remove();
+      if($('td' + id + '_' + (m + 1))){
+        $('td' + id + '_' + (m + 1)).remove();
       }
     }
   }
