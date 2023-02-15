@@ -37,6 +37,7 @@ for(let n=0;n<nouhau.length;n++){  //nouhauNameを作成
     siboriJouken[nouhau[n]] = {};
     siboriJouken[nouhau[n]]['lv'] = 1;
     siboriJouken[nouhau[n]]['hyouji'] = 1;
+    siboriJouken[nouhau[n]]['X'] = 0;
     
     let ele = document.createElement('input');
     ele.type = 'checkbox';
