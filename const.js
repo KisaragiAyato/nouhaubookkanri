@@ -170,10 +170,10 @@ function siborisort(index){
   for(let n=3;n<116;n++){
         if($('nouhauCheckbox1_'+ n).checked){
        
-          if(books[index][nouhau[n]] >= siboriJouken[nouhau[n]]['lv']){
+          if(Nmber(books[index][nouhau[n]]) >= siboriJouken[nouhau[n]]['lv']){
              if(n==3 && siborijouken[nouhau[3]]['X'] != 0){//頭ノウハウで(指定なし)じゃない場合
                let x = siborijouken[nouhau[3]]['X'];
-               let y = books[index]['headX'];
+               let y = Number(books[index]['headX']);
                if((x<=4&&x<=y&&y<=4)||(5>=x&&x<=8&&x<=y&&5>=y&&y<=8)||(x>=9&&x<=12&&x<=y&&y>=9&&y<=12)||
                  (x>=13&&x<=16&&x<=y&&y>=13&&y<=16)||(x>=17&&x<=20&&x<=y&&y>=17&&y<=20)||
                  (x>=21&&x<=24&&x<=y&&y>=21&&y<=24)||(x>=25&&x<=28&&x<=y&&y>=25&&y<=28)||
@@ -187,16 +187,16 @@ function siborisort(index){
                good++;
              
              }else if(n==4||n==5||n==26||n==68||n==114){
-               if((siborijouken[nouhau[n]]['X'] > books[index][nouhau[n] + 'X']) && (books[index][nouhau[n] + 'X'] != 0 )){
+               if((siborijouken[nouhau[n]]['X'] > Number( books[index][nouhau[n] + 'X']) ) && (books[index][nouhau[n] + 'X'] != 0 )){
                  bad++;
-               }else if(siborijouken[nouhau[n]]['X'] <= books[index][nouhau[n] + 'X']  ){
+               }else if(siborijouken[nouhau[n]]['X'] <= Number( books[index][nouhau[n] + 'X'] )  ){
                  good++;
                }
              }else if(n>=110 && n<=113){
-                if((siborijouken[nouhau[n]]['X'] != books[index][nouhau[n] + 'X']) && books[index][nouhau[n] + 'X'] != 0 
+                if((siborijouken[nouhau[n]]['X'] != Number( books[index][nouhau[n] + 'X'] )) && books[index][nouhau[n] + 'X'] != 0 
                     && siborijouken[nouhau[n]]['X'] != 0 ){
                    bad++;
-                }else if( siborijouken[nouhau[n]]['X'] == books[index][nouhau[n] + 'X'] || siborijouken[nouhau[n]]['X'] == 0 ) {
+                }else if( siborijouken[nouhau[n]]['X'] == Number( books[index][nouhau[n] + 'X'] ) || siborijouken[nouhau[n]]['X'] == 0 ) {
                   good++;
                 }
              }else{
@@ -207,7 +207,7 @@ function siborisort(index){
             bad++;
           }
       }else{//チェックされてない場合
-         if(books[index][nouhau[n]] >= 1){
+         if(Number( books[index][nouhau[n]] ) >= 1){
            bad++;
          }
       }
