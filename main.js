@@ -316,7 +316,7 @@ function hyouji(option){
         else if(ele.innerHTML.includes('3')){ele.style.color = '#0e41f6'; }
         else if(ele.innerHTML.includes('4')){ele.style.color = '#e90ef6'; }
         else if(ele.innerHTML.includes('5')){ele.style.color = '#f60e1d'; }
-        
+        ele.classList.add('huchidori');
       }
       
       if(hyoujiBookId3.includes(thisindex)==false){
