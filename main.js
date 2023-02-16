@@ -844,16 +844,16 @@ function infoHyouji(event){
     
     if(n==0){
       bun = bun + nouhauName[n] + ':' ;
-      bun = bun + idolHenkan[books[id][nouhau[n]]] + '<br>';
+      bun = bun + idolHenkan[books[id][nouhau[n]]] + '<hr>';
     }
     else if(n==2){
       bun = bun + nouhauName[n] + ':' ;
       bun = bun + '<br>' + books[0][books[id]['tag'][0]] + ',<br>' +
-            books[0][books[id]['tag'][1]] + '<br>';
+            books[0][books[id]['tag'][1]] + '<hr>';
     }
     else if(n==116){
       bun = bun + nouhauName[n] + ':' ;
-      bun = bun + books[id][nouhau[n]] + '<br>';
+      bun = bun + books[id][nouhau[n]] + '<hr>';
     }
     if(n>=3&&n<116&&books[id][nouhau[n]] != 0){
       bun = bun + nouhauName[n] + ':' ;
@@ -866,7 +866,7 @@ function infoHyouji(event){
           bun = bun + vodaviHenkan[books[id][nouhau[n] + 'X']];
         }
       }
-      bun = bun + books[id][nouhau[n]] + '<br>';
+      bun = bun + books[id][nouhau[n]] + '<hr>';
     }
     
   }
