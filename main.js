@@ -311,11 +311,11 @@ function hyouji(option){
       }
       
       if(m>=3 && m<116){
-        if(ele.innerHTML.includes('1')){ele.style.color = #ebeb89; }
-        else if(ele.innerHTML.includes('2')){ele.style.color = #d6eb89; }
-        else if(ele.innerHTML.includes('3')){ele.style.color = #9ceb89; }
-        else if(ele.innerHTML.includes('4')){ele.style.color = #89ebea; }
-        else if(ele.innerHTML.includes('5')){ele.style.color = #89a8eb; }
+        if(ele.innerHTML.includes('1')){ele.style.color = '#ebeb89'; }
+        else if(ele.innerHTML.includes('2')){ele.style.color = '#d6eb89'; }
+        else if(ele.innerHTML.includes('3')){ele.style.color = '#9ceb89'; }
+        else if(ele.innerHTML.includes('4')){ele.style.color = '#89ebea'; }
+        else if(ele.innerHTML.includes('5')){ele.style.color = '#89a8eb'; }
         
       }
       
