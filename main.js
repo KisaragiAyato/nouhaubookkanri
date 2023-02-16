@@ -846,7 +846,7 @@ function syokika(){
 
 function infoHyouji(event){
   let id = Number(event.target.innerHTML);
-  id = idkensaku(id)[1];
+  id = idkensaku(id)[1];  //idじゃなくてindexです。
 
   let bun = '';
   for(let n=0;n<nouhauName.length;n++){
@@ -854,6 +854,9 @@ function infoHyouji(event){
     if(n==0){
       bun = bun + nouhauName[n] + ':' ;
       bun = bun + idolHenkan[books[id][nouhau[n]]] + '<hr>';
+    }
+    else if(n==1){
+      bun = bun + books[id][nouhau[n]] + '<hr>';
     }
     else if(n==2){
       bun = bun + nouhauName[n] + ':' ;
