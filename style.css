@@ -31,10 +31,10 @@ th{
 }
 
 .huchidori{
-  text-shadow: 1px 1px 0px #fff;
-  text-shadow: -1px -1px 0px #fff;
-  text-shadow: 1px -1px 0px #fff;
-  text-shadow: -1px 1px 0px #fff;
+  text-shadow: 1px 1px 0px #fff,
+               -1px -1px 0px #fff,
+               1px -1px 0px #fff,
+               -1px 1px 0px #fff;
   font-weigth: bold;
 }
 
