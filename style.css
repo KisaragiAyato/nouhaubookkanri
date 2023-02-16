@@ -30,6 +30,11 @@ th{
   height: 1em;
 }
 
+.huchidori{
+  -webkit-text-stroke: 1px #FFF;
+  text-stroke: 1px #FFF;
+}
+
 #midasi tr {
   white-space: nowrap;
 }
