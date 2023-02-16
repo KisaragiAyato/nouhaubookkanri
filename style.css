@@ -31,6 +31,7 @@ th{
 }
 
 .huchidori{
+  font-weight: bold;
   -webkit-text-stroke: 1px #FFF;
   text-stroke: 1px #FFF;
 }
