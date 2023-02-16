@@ -852,7 +852,6 @@ function infoHyouji(event){
   for(let n=0;n<nouhauName.length;n++){
     
     if(n==0){
-      bun = bun + nouhauName[n] + ':' ;
       bun = bun + idolHenkan[books[id][nouhau[n]]] + '<hr>';
     }
     else if(n==1){
