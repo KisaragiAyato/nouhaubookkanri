@@ -239,6 +239,18 @@ window.onload = function(){
 };
 
 function touroku(){
+  //400冊を上限とする
+  if(books.length >= 401){
+    let sassuu = 0;
+    for(let b=1;b<books.length;b++){
+      if(books[b] != 'deleated')sassuu++;
+    }
+    if(sassuu >= 400){
+      alert('既に400冊登録されています。これ以上登録できません。');
+      return;
+    }
+  }
+  
   books.push(new book);
   let thisid = nextid;
   nextid++;
