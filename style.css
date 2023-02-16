@@ -31,9 +31,8 @@ th{
 }
 
 .huchidori{
-  font-weight: bold;
-  -webkit-text-stroke: 1px #FFF;
-  text-stroke: 1px #FFF;
+  text-shadow: 1px 1px 0px #fff;
+  font-weigth: bold;
 }
 
 #midasi tr {
