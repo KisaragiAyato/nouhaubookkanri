@@ -202,7 +202,7 @@ window.onload = function(){
   $('festoursCheck').addEventListener('change',festoursHihyouji);
   
   
- new Promise((resolve) => {
+ async function yomikomi(){
   
   //indexeddbから読み込む
   var storeName = 'nouhauStore';
@@ -239,14 +239,14 @@ window.onload = function(){
     db.close();
   }
   
- }).then(() => {
+  await yomikomi();
   $('yomikomi').classList.add('op0');
   document.removeEventListener('touchmove', handle, { passive: false });
   document.removeEventListener('mousewheel', handle, { passive: false });
   setTimeout(function(){
     $('yomikomi').classList.add('tagHidden');
   },1000);  
- });
+ 
   
   
 };
