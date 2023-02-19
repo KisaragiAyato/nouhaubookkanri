@@ -12,6 +12,8 @@ indexedDBに、ノウハウブックのデータとタグのデータを保存�
 個別にデータを消去したノウハウブックは、books配列内で'deleated'になります。
 indexedDBへの保存時やJSONファイル出力時に、'deleated'を除外したbooks配列を保存します。
 
+books配列は、books[0]にタグ一覧の配列、以降にbookインスタンスが入ります。
+
 
 ・unko
 最初はbooks配列のindex番号をbookiDとしていましたが、
