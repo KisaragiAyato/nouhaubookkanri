@@ -239,7 +239,7 @@ window.onload = function(){
     db.close();
     resolve();
    }
-  ).then( () => {
+  }).then( () => {
   
   
   $('yomikomi').classList.add('op0');
