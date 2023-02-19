@@ -201,6 +201,9 @@ window.onload = function(){
   $('tourokuButton2').addEventListener('click',touroku);
   $('festoursCheck').addEventListener('change',festoursHihyouji);
   
+  
+ new Promise((resolve) => {
+  
   //indexeddbから読み込む
   var storeName = 'nouhauStore';
   
@@ -236,12 +239,14 @@ window.onload = function(){
     db.close();
   }
   
+ }).then(() => {
   $('yomikomi').classList.add('op0');
   document.removeEventListener('touchmove', handle, { passive: false });
   document.removeEventListener('mousewheel', handle, { passive: false });
   setTimeout(function(){
     $('yomikomi').classList.add('tagHidden');
   },1000);  
+ });
   
   
 };
