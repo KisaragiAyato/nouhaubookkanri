@@ -1,3 +1,6 @@
+document.addEventListener('touchmove', handle, { passive: false });
+document.addEventListener('mousewheel', handle, { passive: false });
+
 let books = [];  //[0]はタグ一覧、以降にbook情報
 books[0] = ['---'];
 let junban = [];  //bookIDの羅列
@@ -9,41 +12,6 @@ let isThirdSort = false;  //ソートが「特定のノウハウ数順」状態�
                           //絞り込み条件外のノウハウを除外して再ソートするため。
                           //例　「特定のノウハウ」でvo適正を設定した後、vo適正をlv5以上に絞り込んだら、
                           //    「特定のノウハウ」からvo適正lv1~4を除外して再ソートする
-
-
-//indexeddbから読み込む
-  var storeName = 'nouhauStore';
-  
-  var openReq = indexedDB.open('nouhaubookkanri', 1);
-  // オブジェクトストアの作成・削除はDBの更新時しかできないので、バージョンを指定して更新
-openReq.onupgradeneeded = function(event) {
-    var db = event.target.result;
-    db.createObjectStore(storeName, { keyPath: 'id' })
-  }
-  var keyValue = 'A1';
-  var keyValue2 = 'A2';
-  openReq.onsuccess = function(event) {
-    var db = event.target.result;
-    var trans = db.transaction(storeName, 'readonly');
-    var store = trans.objectStore(storeName);
-    var getReq = store.get(keyValue);
-  
-    getReq.onsuccess = function(event) {
-      if(event.target.result){
-        let data = event.target.result['data']; // {id : 'A1', data : []}
-        datahanei(data);
-      }
-    }
-    
-    var getReq2 = store.get(keyValue2);
-    
-    getReq2.onsuccess = function(event) {
-      if (event.target.result) {
-        nextid = event.target.result['data']; // {id : 'A2', data : nextid}
-      }
-    }
-    db.close();
-  }
 
 
 document.getElementById('dllink').addEventListener('click', (event) => {
@@ -233,7 +201,47 @@ window.onload = function(){
   $('tourokuButton2').addEventListener('click',touroku);
   $('festoursCheck').addEventListener('change',festoursHihyouji);
   
+  //indexeddbから読み込む
+  var storeName = 'nouhauStore';
   
+  var openReq = indexedDB.open('nouhaubookkanri', 1);
+  // オブジェクトストアの作成・削除はDBの更新時しかできないので、バージョンを指定して更新
+  
+  openReq.onupgradeneeded = function(event) {
+    var db = event.target.result;
+    db.createObjectStore(storeName, { keyPath: 'id' })
+  }
+  var keyValue = 'A1';
+  var keyValue2 = 'A2';
+  openReq.onsuccess = function(event) {
+    var db = event.target.result;
+    var trans = db.transaction(storeName, 'readonly');
+    var store = trans.objectStore(storeName);
+    var getReq = store.get(keyValue);
+  
+    getReq.onsuccess = function(event) {
+      if(event.target.result){
+        let data = event.target.result['data']; // {id : 'A1', data : []}
+        datahanei(data);
+      }
+    }
+    
+    var getReq2 = store.get(keyValue2);
+    
+    getReq2.onsuccess = function(event) {
+      if (event.target.result) {
+        nextid = event.target.result['data']; // {id : 'A2', data : nextid}
+      }
+    }
+    db.close();
+  }
+  
+  $('yomikomi').classList.add('op0');
+  document.removeEventListener('touchmove', handle, { passive: false });
+  document.removeEventListener('mousewheel', handle, { passive: false });
+  setTimeout(function(){
+    $('yomikomi').classList.add('tagHidden');
+  },1000);  
   
   
 };
