@@ -706,7 +706,7 @@ function tagSibori(){
           hihyoujiBookId2.slice(hihyoujiBookId2.indexOf(index),1);
         }
       } else {
-        bookHihyouhi(index, true, true);
+        bookHihyouji(index, true, true);
         if(hihyoujiBookId2.includes(index) == false){
           hihyoujiBookId2.push(index);
         }
