@@ -232,7 +232,7 @@ window.onload = function(){
             let data = event.target.result['data']; // {id : 'A1', data : []}
             datahanei(data);
             db.close();
-            return resolve();
+            resolve();
       }
     }
       }
@@ -244,7 +244,7 @@ window.onload = function(){
     // 接続に失敗
        console.log('db open error');
        db.close();
-       return resolve();
+       resolve();
   }
     
     
