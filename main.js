@@ -246,7 +246,7 @@ async function onload(){
     
     
     
-    getReq.onerror = function(event) {
+    openReq.onerror = function(event) {
     // 接続に失敗
        console.log('db open error');
        db.close();
