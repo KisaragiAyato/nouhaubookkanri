@@ -231,6 +231,7 @@ async function onload(){
         
         
       }
+    }
       
       getReq.onsuccess =async function(event) {
           if(event.target.result){
@@ -239,7 +240,7 @@ async function onload(){
             
             
             }
-          }
+       }
        db.close();
     }
     
