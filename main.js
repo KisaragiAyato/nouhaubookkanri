@@ -196,7 +196,9 @@ for(let n=0;n<nouhau.length;n++){  //nouhauNameを作成
 
 
 
-window.onload = async function(){
+window.onload = onload();
+
+async function onload(){
   $('tourokuButton1').addEventListener('click',touroku);
   $('tourokuButton2').addEventListener('click',touroku);
   $('festoursCheck').addEventListener('change',festoursHihyouji);
@@ -264,7 +266,7 @@ window.onload = async function(){
 
   
   
-};
+}
 
 function touroku(){
   //400冊を上限とする
