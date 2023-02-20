@@ -249,14 +249,10 @@ async function onload(){
     openReq.onerror = function(event) {
     // 接続に失敗
        console.log('db open error');
-       db.close();
        
   }
     
-    
-    
-   
-  
+  db.close();
   
   $('yomikomi').classList.add('op0');
   document.removeEventListener('touchmove', handle, { passive: false });
