@@ -221,23 +221,34 @@ window.onload = function(){
     var trans = db.transaction(storeName, 'readonly');
     var store = trans.objectStore(storeName);
     var getReq = store.get(keyValue);
-  
-    getReq.onsuccess = function(event) {
-      if(event.target.result){
-        let data = event.target.result['data']; // {id : 'A1', data : []}
-        datahanei(data);
-      }
-    }
-    
     var getReq2 = store.get(keyValue2);
     
     getReq2.onsuccess = function(event) {
       if (event.target.result) {
         nextid = event.target.result['data']; // {id : 'A2', data : nextid}
+        
+        getReq.onsuccess = function(event) {
+          if(event.target.result){
+            let data = event.target.result['data']; // {id : 'A1', data : []}
+            datahanei(data);
+            db.close();
+            return resolve();
       }
     }
-    db.close();
-    resolve();
+      }
+    }
+    
+    
+    
+    getReq.onerror = function(event) {
+    // 接続に失敗
+       console.log('db open error');
+       db.close();
+       return resolve();
+  }
+    
+    
+    
    }
   }).then( () => {
   
