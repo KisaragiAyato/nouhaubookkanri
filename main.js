@@ -241,7 +241,7 @@ async function onload(){
             
             }
        }
-       db.close();
+       
     }
     
     
@@ -250,7 +250,7 @@ async function onload(){
     // 接続に失敗
        console.log('db open error');
        db.close();
-       resolve();
+       return;
   }
     
     
