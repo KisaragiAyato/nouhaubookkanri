@@ -250,7 +250,7 @@ async function onload(){
     // 接続に失敗
        console.log('db open error');
        db.close();
-       return;
+       
   }
     
     
@@ -264,7 +264,7 @@ async function onload(){
   setTimeout(function(){
     $('yomikomi').classList.add('tagHidden');
   },1000);  
-
+  return;
   
   
 }
