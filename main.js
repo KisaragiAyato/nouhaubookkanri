@@ -232,7 +232,7 @@ async function onload(){
         
       }
       
-      getReq.onsuccess = function(event) {
+      getReq.onsuccess =async function(event) {
           if(event.target.result){
             let data = event.target.result['data']; // {id : 'A1', data : []}
             await datahanei(data);
