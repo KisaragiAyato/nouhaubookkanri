@@ -196,13 +196,13 @@ for(let n=0;n<nouhau.length;n++){  //nouhauNameを作成
 
 
 
-window.onload = function(){
+window.onload = async function(){
   $('tourokuButton1').addEventListener('click',touroku);
   $('tourokuButton2').addEventListener('click',touroku);
   $('festoursCheck').addEventListener('change',festoursHihyouji);
   
   
- new Promise((resolve, reject) => {  
+ 
   
   //indexeddbから読み込む
   var storeName = 'nouhauStore';
@@ -227,15 +227,18 @@ window.onload = function(){
       if (event.target.result) {
         nextid = event.target.result['data']; // {id : 'A2', data : nextid}
         
-        getReq.onsuccess = function(event) {
+        
+      }
+      
+      getReq.onsuccess = function(event) {
           if(event.target.result){
             let data = event.target.result['data']; // {id : 'A1', data : []}
-            datahanei(data);
-            db.close();
-            resolve();
-      }
-    }
-      }
+            await datahanei(data);
+            
+            
+            }
+          }
+       db.close();
     }
     
     
@@ -249,8 +252,7 @@ window.onload = function(){
     
     
     
-   }
-  }).then( () => {
+   
   
   
   $('yomikomi').classList.add('op0');
@@ -259,7 +261,7 @@ window.onload = function(){
   setTimeout(function(){
     $('yomikomi').classList.add('tagHidden');
   },1000);  
- });
+
   
   
 };
@@ -834,7 +836,7 @@ function datasounyuu(){
 }
 
 
-function datahanei(data){
+async function datahanei(data){
   removeHyouji();
   books = data;
   junban = [];
@@ -861,6 +863,7 @@ function datahanei(data){
       tagTuika(books[0][n]);
     }
   }
+  return;
 }
 
 function readjson(){
