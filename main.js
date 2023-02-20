@@ -238,7 +238,15 @@ async function onload(){
             let data = event.target.result['data']; // {id : 'A1', data : []}
             await datahanei(data);
             
-            
+            db.close();
+  
+            $('yomikomi').classList.add('op0');
+            document.removeEventListener('touchmove', handle, { passive: false });
+            document.removeEventListener('mousewheel', handle, { passive: false });
+            setTimeout(function(){
+              $('yomikomi').classList.add('tagHidden');
+            },1000);  
+            return;
             }
        }
        
@@ -250,17 +258,19 @@ async function onload(){
     // 接続に失敗
        console.log('db open error');
        
+       db.close();
+  
+       $('yomikomi').classList.add('op0');
+       document.removeEventListener('touchmove', handle, { passive: false });
+       document.removeEventListener('mousewheel', handle, { passive: false });
+       setTimeout(function(){
+         $('yomikomi').classList.add('tagHidden');
+       },1000);  
+       return;
+       
   }
     
-  db.close();
   
-  $('yomikomi').classList.add('op0');
-  document.removeEventListener('touchmove', handle, { passive: false });
-  document.removeEventListener('mousewheel', handle, { passive: false });
-  setTimeout(function(){
-    $('yomikomi').classList.add('tagHidden');
-  },1000);  
-  return;
   
   
 }
