@@ -332,6 +332,10 @@ function hyouji(option){
       var ele = document.createElement('td');
       ele.id = 'td' +  n  + '_' + ( m + 1 ) ;
       ele.innerHTML = books[thisindex][nouhau[m]];
+      if(m==116){
+        ele.innweHTML = '';
+        ele.textContent = books[thisindex][nouhau[116]];
+      }
       if(m==2){
         ele.innerHTML = books[0][ books[thisindex][nouhau[m]][0] ] + '<br>' + books[0][ books[thisindex][nouhau[m]][1] ];
       }
@@ -919,7 +923,7 @@ function infoHyouji(event){
     }
     else if(n==116){
       bun = bun + nouhauName[n] + ':' ;
-      bun = bun + books[id][nouhau[n]] + '<hr>';
+      bun = bun + '<span id="infomemo"></span>' + '<hr>';
     }
     if(n>=3&&n<116&&books[id][nouhau[n]] != 0){
       bun = bun + nouhauName[n] + ':' ;
@@ -938,6 +942,7 @@ function infoHyouji(event){
   }
   bun = bun + 'bookID:' + books[id]['id'];
   $('infobun').innerHTML = bun;
+  $('infomemo').textContent = books[id][nouhau[n]];
   $('info').classList.remove('infoHidden');
 }
 
