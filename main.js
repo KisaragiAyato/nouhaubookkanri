@@ -421,7 +421,7 @@ function tagTuika(name = '---'){ //引数にタグ名を入れられる。入れ
   for(let n=1;n<=6;n++){
     let ele = document.createElement('option');
     ele.value = books[0].indexOf(newtag);
-    ele.innerHTML = newtag;
+    ele.textContent = newtag;
     $('tagSelect' + n).appendChild(ele);
   }
 }
@@ -434,7 +434,9 @@ function tagHenkou(){
     if(idkensaku(thisid)[0] == 'deleated'){return;}
     let thisindex = idkensaku(thisid)[1];
     books[thisindex]['tag'] = [Number($('tagSelect3').value),Number($('tagSelect4').value)];
-    $('td' + thisid  +'_3').innerHTML = books[0][ books[thisindex]['tag'][0] ]+ '<br>' + books[0][ books[thisindex]['tag'][1] ];
+    $('tagtext' + thisid + '_1').textContent = books[0][ books[thisindex]['tag'][0] ];
+    $('tagtext' + thisid + '_2').textContent = books[0][ books[thisindex]['tag'][1] ];
+    
   }
 }
 
