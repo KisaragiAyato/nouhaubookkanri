@@ -337,7 +337,7 @@ function hyouji(option){
         ele.textContent = books[thisindex][nouhau[116]];
       }
       if(m==2){
-        ele.innerHTML = books[0][ books[thisindex][nouhau[m]][0] ] + '<br>' + books[0][ books[thisindex][nouhau[m]][1] ];
+        ele.innerHTML = '<span id=\"tagtext' + n + '_1\"></span>'  + '<br>' + '<span id=\"tagtext' + n + '_2\"></span>';
       }
       if(m==3){
         ele.innerHTML = headHenkan[books[thisindex][nouhau[m] + 'X']] + books[thisindex][nouhau[m]];
@@ -387,7 +387,10 @@ function hyouji(option){
       }
       $('tr' + (m + 1)).appendChild(ele);
       
-
+      if(m==2){
+        $('tagtext' + n + '_1').textContent = books[0][ books[thisindex][nouhau[m]][0] ];
+        $('tagtext' + n + '_2').textContent = books[0][ books[thisindex][nouhau[m]][1] ];
+      }
       
       
     }
