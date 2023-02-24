@@ -942,7 +942,7 @@ function infoHyouji(event){
   }
   bun = bun + 'bookID:' + books[id]['id'];
   $('infobun').innerHTML = bun;
-  $('infomemo').textContent = books[id][nouhau[n]];
+  $('infomemo').textContent = books[id][nouhau[116]];
   $('info').classList.remove('infoHidden');
 }
 
