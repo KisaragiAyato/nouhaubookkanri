@@ -921,8 +921,8 @@ function infoHyouji(event){
     }
     else if(n==2){
       bun = bun + nouhauName[n] + ':' ;
-      bun = bun + '<br>' + books[0][books[id]['tag'][0]] + ',<br>' +
-            books[0][books[id]['tag'][1]] + '<hr>';
+      bun = bun + '<br>' + '<span id="infotag1"></span>' + ',<br>' +
+             '<span id="infotag2"></span>'+ '<hr>';
     }
     else if(n==116){
       bun = bun + nouhauName[n] + ':' ;
@@ -946,6 +946,8 @@ function infoHyouji(event){
   bun = bun + 'bookID:' + books[id]['id'];
   $('infobun').innerHTML = bun;
   $('infomemo').textContent = books[id][nouhau[116]];
+  $('infotag1').textContent = books[0][books[id]['tag'][0]] ;
+  $('infotag2').textContent = books[0][books[id]['tag'][1]] ;
   $('info').classList.remove('infoHidden');
 }
 
