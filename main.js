@@ -310,10 +310,10 @@ function touroku(){
 function idkensaku(id){//idから[bookインスタンス,books内のindex]を返す
 for(let n=1;n<books.length;n++){
   if(books[n]['id']== id){
-    return [books[n],n]
+    return [books[n],n];
   }
 }
-  
+  return [false,false];
 }
 
 function hyouji(option){
