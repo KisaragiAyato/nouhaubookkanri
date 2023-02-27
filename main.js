@@ -546,7 +546,7 @@ function sibori(){
     }
     
     //booksごとの非表示を実行
-    for(let b=0;b<junban.length;b++){//n:nouhauid,id:bookid
+    for(let b=0;b<junban.length;b++){//n:nouhauid,id:booksのindex
       let id = junban[b];
       id = idkensaku(id)[1];
       if(books[id] == 'deleated'){continue;}
