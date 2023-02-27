@@ -558,8 +558,8 @@ function sibori(){
         if(books[id][nouhau[n]] > 0 && books[id][nouhau[n]] < siboriJouken[nouhau[n]]['lv']){
           hihyoujiBookId.push(id);
         }else if(books[id][nouhau[n]] != 0){//lvの条件はクリア
-          if(n==3 && siborijouken[nouhau[3]]['X'] != 0){//頭ノウハウで(指定なし)じゃない場合
-            let x = siborijouken[nouhau[3]]['X'];
+          if(n==3 && siboriJouken[nouhau[3]]['X'] != 0){//頭ノウハウで(指定なし)じゃない場合
+            let x = siboriJouken[nouhau[3]]['X'];
             let y = books[id]['headX'];
             if((x<=4&&x<=y&&y<=4)||(5>=x&&x<=8&&x<=y&&5>=y&&y<=8)||(x>=9&&x<=12&&x<=y&&y>=9&&y<=12)||
                (x>=13&&x<=16&&x<=y&&y>=13&&y<=16)||(x>=17&&x<=20&&x<=y&&y>=17&&y<=20)||
@@ -570,11 +570,11 @@ function sibori(){
               hihyoujiBookId.push(id);
             }
           }else if(n==4||n==5||n==26||n==68||n==114){
-            if(siborijouken[nouhau[n]]['X'] > books[id][nouhau[n] + 'X']){
+            if(siboriJouken[nouhau[n]]['X'] > books[id][nouhau[n] + 'X']){
               hihyoujiBookId.push(id);
             }
           }else if(n>=110 && n<=113){
-            if(siborijouken[nouhau[n]]['X'] != books[id][nouhau[n] + 'X']){
+            if(siboriJouken[nouhau[n]]['X'] != books[id][nouhau[n] + 'X']){
               hihyoujiBookId.push(id);
             }
           }
@@ -583,8 +583,8 @@ function sibori(){
         if(books[id][nouhau[n]] < siboriJouken[nouhau[n]]['lv']){
           hihyoujiBookId.push(id);
         }else{//lv条件はクリア
-            if (n == 3 && siborijouken[nouhau[3]]['X'] != 0) { //頭ノウハウで(指定なし)じゃない場合
-              let x = siborijouken[nouhau[3]]['X'];
+            if (n == 3 && siboriJouken[nouhau[3]]['X'] != 0) { //頭ノウハウで(指定なし)じゃない場合
+              let x = siboriJouken[nouhau[3]]['X'];
               let y = books[id]['headX'];
               if ((x <= 4 && x <= y && y <= 4) || (5 >= x && x <= 8 && x <= y && 5 >= y && y <= 8) || (x >= 9 && x <= 12 && x <= y && y >= 9 && y <= 12) ||
                   (x >= 13 && x <= 16 && x <= y && y >= 13 && y <= 16) || (x >= 17 && x <= 20 && x <= y && y >= 17 && y <= 20) ||
@@ -595,11 +595,11 @@ function sibori(){
                 hihyoujiBookId.push(id);
               }
             } else if (n == 4 || n == 5 || n == 26 || n == 68 || n == 114) {
-              if (siborijouken[nouhau[n]]['X'] > books[id][nouhau[n] + 'X']) {
+              if (siboriJouken[nouhau[n]]['X'] > books[id][nouhau[n] + 'X']) {
                 hihyoujiBookId.push(id);
               }
             } else if (n >= 110 && n <= 113) {
-              if (siborijouken[nouhau[n]]['X'] != books[id][nouhau[n] + 'X']) {
+              if (siboriJouken[nouhau[n]]['X'] != books[id][nouhau[n] + 'X']) {
                 hihyoujiBookId.push(id);
               }
             }
