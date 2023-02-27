@@ -519,7 +519,7 @@ function sibori(){
 
     for (let i = 0; i < len; i++) {
       if (elements.item(i).checked) {
-        checkValue = elements.item(i).value;
+        checkValue = Number( elements.item(i).value );
         siboriJouken[nouhau[n]]['hyouji'] = checkValue;
         //ノウハウごとの非表示を実行
         if(checkValue == 0){
@@ -535,14 +535,14 @@ function sibori(){
 
     for (let i2 = 0; i2 < len2; i2++) {
       if (elements2.item(i2).checked) {
-        checkValue2 = elements2.item(i2).value;
+        checkValue2 = Number( elements2.item(i2).value );
         siboriJouken[nouhau[n]]['sibori'] = checkValue2;
         
       }
     }
-    siboriJouken[nouhau[n]]['lv'] = $('nouhauSibori' + n + '_1').value;
+    siboriJouken[nouhau[n]]['lv'] = Number( $('nouhauSibori' + n + '_1').value );
     if($('nouhauSibori' + n + '_2')){
-      siboriJouken[nouhau[n]]['X'] = $('nouhauSibori' + n + '_2').value;
+      siboriJouken[nouhau[n]]['X'] = Number( $('nouhauSibori' + n + '_2').value );
     }
     
     //booksごとの非表示を実行
