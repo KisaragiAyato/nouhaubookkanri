@@ -444,6 +444,17 @@ function bookDeleat(){
   if($('bookDeleatIdInput').value =='' || $('bookDeleatIdInput').value == 0){return;}
   
   let thisid = Number($('bookDeleatIdInput').value );
+  
+  if(idkensaku(thisid)[0]){
+    if(idkensaku(thisid)[0] == 'deleated'){
+      alert('すでに削除済みです。');
+      return;
+    }
+  }else{
+    alert('そのIDのノウハウブックは見つかりませんでした。');
+    return;
+  }
+  
   thisindex = idkensaku(thisid)[1];
   var check = window.confirm('really?'); 
   if(check && books[thisindex]){
@@ -451,7 +462,7 @@ function bookDeleat(){
     for(let m=0;m<118;m++){
       $('td' + thisid + '_' + (m+1)).remove();
     }
-    alert('deleated.')
+    alert('deleated.');
   }
 }
 
