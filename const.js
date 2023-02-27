@@ -161,6 +161,32 @@ let nextid = 1;
       }else{
         return a-b;
       }
+    },
+    function(a,b){
+      let a1 = idkensaku(a)[1];
+      let b1 = idkensaku(b)[1];
+      if (books[a1] == 'deleated') { return 1; }
+      if (books[b1] == 'deleated') { return -1; }
+      
+      let alv = [0,0,0,0,0,0];
+      let blv = [0,0,0,0,0,0];
+      for (let i = 3; i < nouhau.length - 1; i++) {
+        alv[books[a1][nouhau[i]]]++;
+        blv[books[b1][nouhau[i]]]++;
+      }
+      if(alv[5] != blv[5]){
+        return blv[5] - alv[5];
+      }else if(alv[4] != blv[4]) {
+          return blv[4] - alv[4];
+      } else if (alv[3] != blv[3]) {
+              return blv[3] - alv[3];
+      } else if (alv[2] != blv[2]) {
+              return blv[2] - alv[2];
+      } else if (alv[1] != blv[1]) {
+              return blv[1] - alv[1];
+      }else{
+        return a-b;
+      }
     }
     ];
     
