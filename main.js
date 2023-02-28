@@ -615,13 +615,27 @@ function sibori(){
       hyouji();
   }
   
+  let tagetString = $('memosiboriTextarea').value;
+  var separatorString = /\s+/;
+  var arrayStrig = tagetString.split(separatorString);
   for(let count=1;count<books.length;count++){
+    if(tagetString != ''){
+      //メモ絞りの処理
+      for(let mojinum=0;mojinum<arrayStrig.length;mojinum++){
+        if(books[count]['memo'].includes(arrayStrig[mojinum]) && hihyoujiBookId.includes(count)){
+          hihyoujiBookId.splice(hihyoujiBookId.indexOf(count),1);
+        }
+      
+      }
+    }//メモ絞り終わり
+    
     if(hihyoujiBookId.includes(count)){
       bookHihyouji(count);
     }else{
       bookHihyouji(count,false);
     }
   }
+  
   
   
   
