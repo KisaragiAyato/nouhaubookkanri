@@ -79,14 +79,19 @@
         </details>
         <div>
           <button class="menubutton" ondblclick="nouhauAllHyouji()">すべてのノウハウを「表示」に切り替えて反映する</button>
-        </div>
+        </div><br>
+        メモに特定のワードが含まれるノウハウブックを表示させる: 
+        <textarea id="memosiboriTextarea" cols="35" rows="1" placeholder="複数設定するには、空白で区切って下さい。"></textarea><br>
+        ※用意されていないノウハウは、メモをご活用ください。<br><br>
 
        <button class="menubutton" onclick="sibori()" >上の条件で絞り込み表示</button>
        <button class="menubutton" onclick="bookAllHyouji()" style="margin-right: 2em; margin-left:2em;">すべてのノウハウブックを表示</button>
        <button class="menubutton" onclick="bookAllHihyouji()">すべてのノウハウブックを非表示</button>
        
-       <br><br>
-       <input type="checkbox" id="festoursCheck">FesTours専用アビリティを非表示にする<br><br>
+       <br><hr style="opacity: 0.4">
+       <input type="checkbox" id="festoursCheck">FesTours専用アビリティを非表示にする
+       <br><hr style="opacity: 0.4">
+       
        タグ:<select id="tagSelect5">
          <option value="0">---</option>
        </select>
@@ -99,8 +104,10 @@
        </select>       
        <button class="menubutton" onclick="tagSibori()">タグで絞り込む</button><br>
        ※タグの絞り込みを解除するには、---同士で絞り込んでください。
-       <br>
-       <br>
+       <br><hr style="opacity: 0.4">
+       
+       
+
        現在の表示から特定のbookIDを表示/非表示にする <br>
        bookID: <input type="number" id="tokuteiIdInput" placeholder="bookIDを入力">
        <button class="menubutton" onclick="tokuteiHyouji()">表示</button> 
