@@ -112,8 +112,8 @@ let nextid = 1;
     function(a,b){
       let a1 = idkensaku(a)[1];
       let b1 = idkensaku(b)[1];
-      if (books[a1] == 'deleated') { return 1; }
-      if (books[b1] == 'deleated') { return -1; }
+      if (a1 === false) { return 1; }
+      if (b1 === false) { return -1; }
       
       let anouhau = nouhausuuSearch(a1);
       let bnouhau = nouhausuuSearch(b1);
@@ -143,8 +143,8 @@ let nextid = 1;
     function(a,b){
       let a1 = idkensaku(a)[1];
       let b1 = idkensaku(b)[1];
-      if(books[a1] == 'deleated'){return 1;}
-      if(books[b1] == 'deleated'){return -1;}
+      if(a1 === false){return 1;}
+      if(b1 === false){return -1;}
       
       let anouhau=siborisort(a1)[0];
       let anouhauz=siborisort(a1)[1];
@@ -165,8 +165,8 @@ let nextid = 1;
     function(a,b){
       let a1 = idkensaku(a)[1];
       let b1 = idkensaku(b)[1];
-      if (books[a1] == 'deleated') { return 1; }
-      if (books[b1] == 'deleated') { return -1; }
+      if (a1 === false) { return 1; }
+      if (b1 === false) { return -1; }
       
       let alv = [0,0,0,0,0,0];
       let blv = [0,0,0,0,0,0];
