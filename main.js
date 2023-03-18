@@ -508,6 +508,7 @@ function gyakujun(){
   hyouji();
 }
 
+//絞りこみ機能
 function sibori(){
   hihyoujiBookId = [];//非表示にするbookのindexをいれておく
   
@@ -574,7 +575,8 @@ function sibori(){
               hihyoujiBookId.push(id);
             }
           }else if(n>=110 && n<=113){
-            if(siboriJouken[nouhau[n]]['X'] != books[id][nouhau[n] + 'X']){
+            if(siboriJouken[nouhau[n]]['X'] != books[id][nouhau[n] + 'X'] && 
+               siboriJouken[nouhau[n]]['X'] != 0 ){
               hihyoujiBookId.push(id);
             }
           }
@@ -599,7 +601,8 @@ function sibori(){
                 hihyoujiBookId.push(id);
               }
             } else if (n >= 110 && n <= 113) {
-              if (siboriJouken[nouhau[n]]['X'] != books[id][nouhau[n] + 'X']) {
+              if (siboriJouken[nouhau[n]]['X'] != books[id][nouhau[n] + 'X'] &&
+                  siboriJouken[nouhau[n]]['X'] != 0 ) {
                 hihyoujiBookId.push(id);
               }
             }
