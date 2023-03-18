@@ -867,13 +867,15 @@ function datasounyuu(){
     trans.oncomplete = function() {
       // トランザクション完了時(putReq.onsuccessの後)に実行
       console.log('transaction complete');
+      db.close();
     }
-    db.close();
+    
   
   }
   openReq.onerror = function(event) {
     // 接続に失敗
-       alert('db open error');
+    alert('db open error');
+    db.close();
   }
   
 }
