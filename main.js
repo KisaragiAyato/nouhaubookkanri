@@ -1,5 +1,5 @@
-document.addEventListener('touchmove', handle, { passive: false });
-document.addEventListener('mousewheel', handle, { passive: false });
+//document.addEventListener('touchmove', handle, { passive: false });
+//document.addEventListener('mousewheel', handle, { passive: false });
 
 let books = [];  //[0]はタグ一覧、以降にbook情報
 books[0] = ['---'];
